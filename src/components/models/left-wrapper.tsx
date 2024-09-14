@@ -5,11 +5,11 @@ import Filters from "./filters";
 
 export default function Left() {
   return (
-    <div className="w-full col-span-3 border-r border-primary-400/50 h-full bg-gradient-to-r from-primary-300/5  to-primary-300/20 flex flex-col py-[15%] px-8 items-center gap-y-8">
+    <div className="w-full col-span-2 border-r border-primary-400/50 h-full bg-gradient-to-r from-primary-300/5  to-primary-300/20 flex flex-col py-[15%] px-8 items-center gap-y-10">
          <Input
-          fullWidth={true}
+          fullWidth
           classNames={{
-            base: "max-w-full sm:max-w-[10rem] h-10",
+            base: "max-w-full h-10",
             mainWrapper: "h-full w-full",
             input: "text-small",
             inputWrapper: "h-full w-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
@@ -21,7 +21,7 @@ export default function Left() {
           type="search"
           width={200}
         />
-        <div className="w-full space-y-3">
+        <div className="w-full space-y-4">
             <Filters label="Multimodal"/>
             <Filters label="Computer Vision"/>
             <Filters label="OCR"/>

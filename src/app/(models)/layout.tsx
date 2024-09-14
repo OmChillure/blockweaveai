@@ -6,7 +6,7 @@ export default function RootLayout({
     children: React.ReactNode;
   }>) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen w-full bg-background">
         <Header/>
         {children}
       </div>        
