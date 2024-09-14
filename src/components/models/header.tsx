@@ -25,7 +25,7 @@ export default function Header() {
   ];
 
   return (
-    <Navbar className="h-[10vh]" isBordered isBlurred shouldHideOnScroll disableAnimation>
+    <Navbar className="h-[10vh]" maxWidth="full" isBordered isBlurred shouldHideOnScroll disableAnimation>
       <NavbarContent justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -93,7 +93,7 @@ export default function Header() {
           startContent={<SearchIcon height={20} width={15} size={18} />}
           type="search"
         />
-        <Dropdown placement="bottom-end" className="bg-white/40">
+        <Dropdown placement="bottom-end" className="bg-neutral-300/50 ">
           <DropdownTrigger>
             <Avatar
               isBordered
