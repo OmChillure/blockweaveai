@@ -1,4 +1,3 @@
-import Left from "@/components/models/left-wrapper";
 import Models from "@/components/models/right";
 
 export default function page() {
