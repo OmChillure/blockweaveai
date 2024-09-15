@@ -3,8 +3,7 @@ import Models from "@/components/models/right";
 
 export default function page() {
     return(
-        <div className="min-h-[90vh] grid grid-cols-12 grid-rows-1 place-content-center">
-            <Left/>
+        <div className="min-h-[90vh] w-full col-span-10">
             <Models />
         </div>
     )

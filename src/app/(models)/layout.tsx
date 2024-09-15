@@ -1,4 +1,5 @@
 import Header from "@/components/models/header";
+import Left from "@/components/models/left-wrapper";
 
 export default function RootLayout({
     children,
@@ -8,7 +9,10 @@ export default function RootLayout({
     return (
       <div className="min-h-screen w-full bg-background">
         <Header/>
-        {children}
+        <div className="min-h-[90vh] grid grid-cols-12 grid-rows-1 place-content-center">
+          <Left/>
+          {children}
+        </div>
       </div>        
     );
   }

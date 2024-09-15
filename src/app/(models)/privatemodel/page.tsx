@@ -61,9 +61,8 @@ function PersonalModels() {
   );
 
   return (
-    <div className='flex w-[44%] h-screen'>
-    <Left />
-    <div className="h-screen w-full col-span-9 overflow-y-auto flex flex-col pb-20">
+    <div className='flex min-h-[90vh] w-full col-span-10'>
+    <div className="h-full w-full  overflow-y-auto flex flex-col pb-20">
       <div className='flex mb-10 gap-3 justify-end w-[99%]'>
         <div className="search-container relative top-3">
           <input

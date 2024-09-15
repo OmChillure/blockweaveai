@@ -52,7 +52,7 @@ function Models() {
   );
 
   return (
-    <div className="min-h-screen w-full col-span-9 overflow-y-auto flex flex-col pb-20">
+    <div className="min-h-screen w-full overflow-y-auto flex flex-col pb-20">
       <div className='flex mb-10 gap-3 justify-end w-[99%]'>
         {/* <div className="search-container relative top-3">
           <input
