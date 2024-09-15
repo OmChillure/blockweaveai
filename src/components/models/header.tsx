@@ -36,30 +36,20 @@ export default function Header() {
           <p className="hidden sm:block font-bold text-foreground">Hf_onchain</p>
           </Link>
         </NavbarBrand>
-        <NavbarContent className="hidden sm:flex gap-3">
+        <NavbarContent className="hidden sm:flex gap-6 w-[70vw]">
           <NavbarItem>
             <Link color="foreground" href="/models">
               Models
             </Link>
           </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="/privatemodel">
-              Private Models
-            </Link>
-          </NavbarItem>
           <NavbarItem isActive>
-            <Link href="#" aria-current="page" color="secondary">
+            <Link href="/dataset" aria-current="page" color="secondary">
               Datasets
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/docs">
               Docs
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Pricing
             </Link>
           </NavbarItem>
         </NavbarContent>
@@ -81,19 +71,8 @@ export default function Header() {
         ))}
       </NavbarMenu>
       <NavbarContent as="div" className="items-center" justify="end">
-        <Input
-          classNames={{
-            base: "max-w-full sm:max-w-[10rem] h-10",
-            mainWrapper: "h-full",
-            input: "text-small",
-            inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
-          }}
-          placeholder="Type to search..."
-          size="sm"
-          startContent={<SearchIcon height={20} width={15} size={18} />}
-          type="search"
-        />
-        <Dropdown placement="bottom-end" className="bg-neutral-300/50 ">
+      <WalletButton />
+        <Dropdown placement="bottom-end" className="bg-black ">
           <DropdownTrigger>
             <Avatar
               isBordered
@@ -106,22 +85,31 @@ export default function Header() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+          <DropdownItem key="Profile" variant="flat">
+            <Link href="/profile">
+              Profile
+            </Link>
+          </DropdownItem>
+            <DropdownItem key="settings">
+              <Link href="/privatemodel">
+                Upload Models
+              </Link>
             </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
-            <DropdownItem key="team_settings">Team Settings</DropdownItem>
-            <DropdownItem key="analytics">Analytics</DropdownItem>
+            <DropdownItem key="team_settings">
+              <Link href="/privatedataset">
+              Upload Datasets
+              </Link>
+            </DropdownItem>
             <DropdownItem key="system">System</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
             <DropdownItem key="logout" color="danger">
+              <Link href="/">
               Log Out
+              </Link>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <WalletButton />
       </NavbarContent>
     </Navbar>
   );

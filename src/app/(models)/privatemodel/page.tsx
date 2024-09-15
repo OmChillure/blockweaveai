@@ -33,7 +33,6 @@ function PersonalModels() {
     const program = new Program(idl as Idl, programId, provider);
 
     try {
-      // Fetch all entries with the specific filter for the owner
       const allEntries = await program.account.modelEntryState.all([
         {
           memcmp: {
@@ -79,7 +78,7 @@ function PersonalModels() {
           </button>
         </Link>
       </div>
-      <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mx-4 sm:mx-20 gap-10 content-start">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 ml-10 sm:ml-[25%] gap-5 content-start w-[60vw]">
         {!connected ? (
           <p className="text-gray-400 col-span-full text-center">Please connect your wallet to view your personal Modells.</p>
         ) : filteredEntries.length === 0 ? (
@@ -87,10 +86,12 @@ function PersonalModels() {
         ) : (
           filteredEntries.reverse().map((entry, index) => (
             <Link href={`/dashboard/modell/${encodeURIComponent(entry.title)}`} key={index}>
-              <div className="bg-[#0d0c0c] rounded-md shadow-md p-8 w-full flex flex-col items-center h-[250px]">
-                <Image src={'/superteam.jpg'} height={110} width={110} alt='bg' className='rounded-md'/>
-                <h3 className="text-xl font-medium text-white pt-3 text-center">{entry.title}</h3>
-                <p className="text-gray-400 overflow-hidden text-center mt-2">{entry.message}</p>
+              <div className="bg-[#0d0c0c] rounded-md shadow-md p-2 px-5 w-full flex flex-col h-[65px]">
+              <div className='flex gap-3'>
+                <Image src="/ai.png" width={20} height={20} alt={''} className='py-1' />
+                <h3 className="text-xl font-medium text-white">{entry.title}</h3>
+                </div>
+                <p className="text-gray-400 font-light overflow-hidden">{entry.message}</p>
               </div>
             </Link>
           ))

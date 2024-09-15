@@ -8,7 +8,6 @@ const pinata = new PinataSDK({
 });
 
 export const upload = async ({userId,file}:{userId:string ,file:File}) => {
-    // userId optional for now
     try {
         const upload = await pinata.upload.file(file);
         console.log(upload);

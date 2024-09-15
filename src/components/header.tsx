@@ -1,8 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/ui/navbar";
+import {
+  HoveredLink,
+  Menu,
+  MenuItem,
+  ProductItem,
+} from "@/components/ui/navbar";
 import { cn } from "@/lib/utils";
-import { WalletButton } from "./solana/solana-provider";
+import { isWalletConnected as checkWalletConnection, WalletButton } from "./solana/solana-provider";
 import { Button, Link } from "@nextui-org/react";
 
 export function Header() {
@@ -14,6 +19,8 @@ export function Header() {
 }
 
 function Navbar({ className }: { className?: string }) {
+  const walletConnected = checkWalletConnection();
+
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
@@ -63,16 +70,24 @@ function Navbar({ className }: { className?: string }) {
             <HoveredLink href="/team">Team</HoveredLink>
             <HoveredLink href="/enterprise">Enterprise</HoveredLink>
           </div>
-        </MenuItem >
+        </MenuItem>
+        {walletConnected && (
+          <div className="flex justify-center items-center">
+          <Button variant={"faded"} color="primary">
+            <Link href="/models">
+              Models
+            </Link>
+          </Button>
+      </div>
+        )}
         <div className="flex justify-center items-center">
-            <Button variant={"faded"} color="primary">
-              <Link href="/models">
-                Models
-              </Link>
-            </Button>
-        </div>
-        <div className="flex justify-center items-center">
-            <WalletButton style={{backgroundColor:"#9823C2" ,padding:"0px 10px" ,borderRadius:"8px"}} />
+          <WalletButton
+            style={{
+              backgroundColor: "#9823C2",
+              padding: "0px 10px",
+              borderRadius: "8px",
+            }}
+          />
         </div>
       </Menu>
     </div>

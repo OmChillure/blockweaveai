@@ -5,7 +5,6 @@ import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
-import { FileUpload } from '@/components/ui/file-uploader';
 
 const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
 
@@ -67,33 +66,40 @@ function CreateModelEntry() {
   };
 
   return (
-    <div className="w-[80vw] mx-auto p-5 flex flex-col items-center">
-      <h2 className="text-center text-2xl font-bold mb-6 text-white">Upload Your Model</h2>
-      <div className="mb-4">
+    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Upload Your Datset</h2>
+      <div style={{ marginBottom: '15px' }}>
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           maxLength={20}
-          className="w-full p-3 text-lg border border-gray-300 rounded-lg bg-white text-black"
+          style={{ width: '100%', padding: '10px', fontSize: '16px' }}
         />
       </div>
-      <div className="mb-4">
+      <div style={{ marginBottom: '15px' }}>
         <textarea
-          placeholder="Add model hashtags"
+          placeholder="Addd dataset hashtags"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           maxLength={20}
-          className="w-full p-3 text-lg border border-gray-300 rounded-lg bg-white text-black min-h-[100px]"
+          style={{ width: '100%', padding: '10px', fontSize: '16px', minHeight: '100px' }}
         />
       </div>
-      <FileUpload />
-      <button
-        onClick={createEntry}
+      <button 
+        onClick={createEntry} 
         disabled={!wallet}
-        className={`w-[50%] p-3 text-lg font-semibold text-white rounded-lg 
-        ${wallet ? 'bg-green-500 hover:bg-green-600' : 'bg-green-500 opacity-50 cursor-not-allowed'}`}
+        style={{
+          width: '100%',
+          padding: '10px',
+          fontSize: '16px',
+          backgroundColor: '#4CAF50',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          opacity: wallet ? 1 : 0.5
+        }}
       >
         Create Entry
       </button>

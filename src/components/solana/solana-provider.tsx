@@ -8,6 +8,7 @@ import {
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { ReactNode, useCallback, useMemo } from 'react';
 import { useCluster } from '../cluster/cluster-data-access';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -16,6 +17,11 @@ export const WalletButton = dynamic(
     (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
   { ssr: false }
 );
+
+export const isWalletConnected = () => {
+  const { connected } = useWallet();
+  return useMemo(() => connected, [connected]);
+}
 
 export function SolanaProvider({ children }: { children: ReactNode }) {
   const { cluster } = useCluster();
