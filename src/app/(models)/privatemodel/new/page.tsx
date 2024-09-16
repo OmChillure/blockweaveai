@@ -47,8 +47,10 @@ function CreateModelEntry() {
         .rpc();
 
         console.log('Transaction signature', tx);
-        const res = await upload({ userId: "abc", file: files[0]});
-        console.log(res);
+        const formData = new FormData();
+        formData.append("file", files[0]);
+        formData.append("userId", "abc");
+        await upload(formData);
         alert('Model entry created successfully!');
         
       await logEntry(modelEntryPda, program);

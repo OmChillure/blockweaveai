@@ -7,9 +7,9 @@ const pinata = new PinataSDK({
   pinataGateway: process.env.PINATA_GATEWAY ,
 });
 
-export const upload = async ({userId,file}:{userId:string ,file:File}) => {
+export const upload = async (data: FormData) => {
     try {
-        const upload = await pinata.upload.file(file);
+        const upload = await pinata.upload.file(data.get("file") as File);
         console.log(upload);
       } catch (error) {
         console.log(error);
