@@ -5,6 +5,7 @@ import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
+import { upload } from '@/actions';
 import { FileUpload } from '@/components/ui/file-uploader';
 
 const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
@@ -12,9 +13,15 @@ const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
 function CreateModelEntry() {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
+  const [files, setFiles] = useState<File[]>([]);
   const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; owner: string }>(null);
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
+
+  const handleFileUpload = async (files: File[]) => {
+    setFiles(files);
+    console.log(files);
+  };
 
   const createEntry = async () => {
     if (!wallet) {
@@ -39,9 +46,11 @@ function CreateModelEntry() {
         })
         .rpc();
 
-      console.log('Transaction signature', tx);
-      alert('Model entry created successfully!');
-      
+        console.log('Transaction signature', tx);
+        const res = await upload({ userId: "abc", file: files[0]});
+        console.log(res);
+        alert('Model entry created successfully!');
+        
       await logEntry(modelEntryPda, program);
 
       setTitle('');
@@ -88,7 +97,7 @@ function CreateModelEntry() {
           className="w-full p-3 text-lg border border-gray-300 rounded-lg bg-white text-black min-h-[100px]"
         />
       </div>
-      <FileUpload />
+      <FileUpload onChange={handleFileUpload} />
       <button
         onClick={createEntry}
         disabled={!wallet}

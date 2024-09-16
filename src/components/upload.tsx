@@ -1,11 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { FileUpload } from "@/components/ui/file-uploader";
+import { upload } from "@/actions";
 
 export function FileUploadDemo() {
   const [files, setFiles] = useState<File[]>([]);
-  const handleFileUpload = (files: File[]) => {
+  const handleFileUpload = async (files: File[]) => {
     setFiles(files);
+
+    const res = await upload({ userId: "abc", file: files[0]});
     console.log(files);
   };
 
