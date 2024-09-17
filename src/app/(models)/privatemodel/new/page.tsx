@@ -7,7 +7,6 @@ import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
 import { upload } from '@/actions';
 import { FileUpload } from '@/components/ui/file-uploader';
-import { hash } from 'crypto';
 
 const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
 
@@ -15,7 +14,7 @@ function CreateModelEntry() {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
   const [files, setFiles] = useState<File[]>([]);
-  const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; hash:string, owner: string }>(null);
+  const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; owner: string; ipfsHash: string }>(null);
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
 
@@ -30,16 +29,26 @@ function CreateModelEntry() {
       return;
     }
 
+    if (files.length === 0) {
+      alert('Please select a file to upload');
+      return;
+    }
+
     const provider = new AnchorProvider(connection, wallet, {});
     const program = new Program(idl as Idl, programId, provider);
 
     try {
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("userId", wallet.publicKey.toString());
+      const { hash: ipfsHash } = await upload(formData);
+
       const [modelEntryPda] = PublicKey.findProgramAddressSync(
         [Buffer.from(title), wallet.publicKey.toBuffer()],
         programId
       );
 
-      const tx = await program.methods.createEntry(title, message)
+      const tx = await program.methods.createEntry(title, message, ipfsHash)
         .accounts({
           modelEntry: modelEntryPda,
           owner: wallet.publicKey,
@@ -47,17 +56,14 @@ function CreateModelEntry() {
         })
         .rpc();
 
-        console.log('Transaction signature', tx);
-        const formData = new FormData();
-        formData.append("file", files[0]);
-        formData.append("userId", "abc");
-        await upload(formData);
-        alert('Model entry created successfully!');
-        
+      console.log('Transaction signature', tx);
+      alert('Model entry created successfully!');
+      
       await logEntry(modelEntryPda, program);
 
       setTitle('');
       setMessage('');
+      setFiles([]);
     } catch (error) {
       console.error('Error creating model entry:', error);
       alert('Failed to create model entry');
@@ -71,8 +77,8 @@ function CreateModelEntry() {
       setLastEntry({
         title: entryAccount.title,
         message: entryAccount.message,
-        hash: entryAccount.hash,
         owner: entryAccount.owner.toString(),
+        ipfsHash: entryAccount.ipfsHash,
       });
     } catch (error) {
       console.error('Error fetching entry:', error);
@@ -104,9 +110,9 @@ function CreateModelEntry() {
       <FileUpload onChange={handleFileUpload} />
       <button
         onClick={createEntry}
-        disabled={!wallet}
+        disabled={!wallet || files.length === 0}
         className={`w-[50%] p-3 text-lg font-semibold text-white rounded-lg 
-        ${wallet ? 'bg-green-500 hover:bg-green-600' : 'bg-green-500 opacity-50 cursor-not-allowed'}`}
+        ${wallet && files.length > 0 ? 'bg-green-500 hover:bg-green-600' : 'bg-green-500 opacity-50 cursor-not-allowed'}`}
       >
         Create Entry
       </button>

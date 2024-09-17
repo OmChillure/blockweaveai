@@ -7,8 +7,6 @@ import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
 import Link from 'next/link';
 import Image from 'next/image';
-import Left from '@/components/models/left-wrapper';
-import { hash } from 'crypto';
 
 const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
 
@@ -48,10 +46,11 @@ function PersonalModels() {
       const formattedEntries = allEntries.map(entry => ({
         title: entry.account.title,
         message: entry.account.message,
-        hash: entry.account.hash,
         owner: entry.account.owner.toString(),
+        hash: entry.account.ipfsHash,
       }));
-
+      
+      console.log(formattedEntries);
       setEntries(formattedEntries);
     } catch (error) {
       console.error('Error fetching personal Modells:', error);
@@ -64,7 +63,7 @@ function PersonalModels() {
   );
 
   return (
-    <div className='flex min-h-[90vh] w-full col-span-10'>
+    <div className='flex min-h-[100vh] w-full col-span-10'>
     <div className="h-full w-full  overflow-y-auto flex flex-col pb-20">
       <div className='flex mb-10 gap-3 justify-end w-[99%]'>
         <div className="search-container relative top-3">
@@ -90,12 +89,12 @@ function PersonalModels() {
         ) : (
           filteredEntries.reverse().map((entry, index) => (
             <Link href={`/dashboard/modell/${encodeURIComponent(entry.title)}`} key={index}>
-              <div className="bg-[#0d0c0c] rounded-md shadow-md p-2 px-5 w-full flex flex-col h-[65px]">
+              <div className="bg-[#0d0c0c] rounded-md shadow-md p-2 px-5 w-full flex flex-col h-[85px]">
               <div className='flex gap-3'>
                 <Image src="/ai.png" width={20} height={20} alt={''} className='py-1' />
                 <h3 className="text-xl font-medium text-white">{entry.title}</h3>
-                </div>
-                <p className="text-gray-400 font-light overflow-hidden">{entry.message}</p>
+              </div>
+                {/* <p className="text-gray-400 font-light overflow-hidden">{entry.message}</p> */}
                 <p className="text-gray-400 font-light overflow-hidden">{entry.hash}</p>
               </div>
             </Link>
