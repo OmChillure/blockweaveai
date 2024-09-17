@@ -5,6 +5,7 @@ import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
+import { upload } from '@/actions';
 import { FileUpload } from '@/components/ui/file-uploader';
 
 const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
@@ -12,9 +13,15 @@ const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
 function CreateModelEntry() {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
-  const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; owner: string }>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; owner: string; ipfsHash: string }>(null);
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
+
+  const handleFileUpload = async (files: File[]) => {
+    setFiles(files);
+    console.log(files);
+  };
 
   const createEntry = async () => {
     if (!wallet) {
@@ -22,16 +29,26 @@ function CreateModelEntry() {
       return;
     }
 
+    if (files.length === 0) {
+      alert('Please select a file to upload');
+      return;
+    }
+
     const provider = new AnchorProvider(connection, wallet, {});
     const program = new Program(idl as Idl, programId, provider);
 
     try {
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("userId", wallet.publicKey.toString());
+      const { hash: ipfsHash } = await upload(formData);
+
       const [modelEntryPda] = PublicKey.findProgramAddressSync(
         [Buffer.from(title), wallet.publicKey.toBuffer()],
         programId
       );
 
-      const tx = await program.methods.createEntry(title, message)
+      const tx = await program.methods.createEntry(title, message, ipfsHash)
         .accounts({
           modelEntry: modelEntryPda,
           owner: wallet.publicKey,
@@ -46,6 +63,7 @@ function CreateModelEntry() {
 
       setTitle('');
       setMessage('');
+      setFiles([]);
     } catch (error) {
       console.error('Error creating model entry:', error);
       alert('Failed to create model entry');
@@ -60,6 +78,7 @@ function CreateModelEntry() {
         title: entryAccount.title,
         message: entryAccount.message,
         owner: entryAccount.owner.toString(),
+        ipfsHash: entryAccount.ipfsHash,
       });
     } catch (error) {
       console.error('Error fetching entry:', error);
@@ -88,12 +107,12 @@ function CreateModelEntry() {
           className="w-full p-3 text-lg border border-gray-300 rounded-lg bg-white text-black min-h-[100px]"
         />
       </div>
-      <FileUpload />
+      <FileUpload onChange={handleFileUpload} />
       <button
         onClick={createEntry}
-        disabled={!wallet}
+        disabled={!wallet || files.length === 0}
         className={`w-[50%] p-3 text-lg font-semibold text-white rounded-lg 
-        ${wallet ? 'bg-green-500 hover:bg-green-600' : 'bg-green-500 opacity-50 cursor-not-allowed'}`}
+        ${wallet && files.length > 0 ? 'bg-green-500 hover:bg-green-600' : 'bg-green-500 opacity-50 cursor-not-allowed'}`}
       >
         Create Entry
       </button>

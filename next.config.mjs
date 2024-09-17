@@ -12,6 +12,11 @@ import {
       }]
     },
     reactStrictMode: true,
+    experimental:{
+      serverActions:{
+        allowedOrigins:["localhost:3000"]
+      }
+    }
   };
   
   const nextConfigFunction = async (phase) => {
