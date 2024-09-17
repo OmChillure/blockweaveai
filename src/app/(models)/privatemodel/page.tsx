@@ -8,11 +8,14 @@ import idl from '@/lib/idl.json';
 import Link from 'next/link';
 import Image from 'next/image';
 import Left from '@/components/models/left-wrapper';
+import { hash } from 'crypto';
 
 const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
 
 function PersonalModels() {
-  const [entries, setEntries] = useState<Array<{ title: string; message: string; owner: string }>>([]);
+  const [entries, setEntries] = useState<Array<{
+    hash: string; title: string; message: string; owner: string 
+}>>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
@@ -45,6 +48,7 @@ function PersonalModels() {
       const formattedEntries = allEntries.map(entry => ({
         title: entry.account.title,
         message: entry.account.message,
+        hash: entry.account.hash,
         owner: entry.account.owner.toString(),
       }));
 
@@ -92,6 +96,7 @@ function PersonalModels() {
                 <h3 className="text-xl font-medium text-white">{entry.title}</h3>
                 </div>
                 <p className="text-gray-400 font-light overflow-hidden">{entry.message}</p>
+                <p className="text-gray-400 font-light overflow-hidden">{entry.hash}</p>
               </div>
             </Link>
           ))

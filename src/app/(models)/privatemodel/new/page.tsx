@@ -7,6 +7,7 @@ import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
 import { upload } from '@/actions';
 import { FileUpload } from '@/components/ui/file-uploader';
+import { hash } from 'crypto';
 
 const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
 
@@ -14,7 +15,7 @@ function CreateModelEntry() {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
   const [files, setFiles] = useState<File[]>([]);
-  const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; owner: string }>(null);
+  const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; hash:string, owner: string }>(null);
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
 
@@ -70,6 +71,7 @@ function CreateModelEntry() {
       setLastEntry({
         title: entryAccount.title,
         message: entryAccount.message,
+        hash: entryAccount.hash,
         owner: entryAccount.owner.toString(),
       });
     } catch (error) {
