@@ -11,6 +11,7 @@ export default function Filters({label}:{label:string}) {
         className="gap-1"
         label={label}
         orientation="horizontal"
+        
       >
         <CustomCheckbox value="wifi">Wifi</CustomCheckbox>
         <CustomCheckbox value="tv">TV</CustomCheckbox>

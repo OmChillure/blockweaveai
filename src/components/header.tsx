@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { isWalletConnected as checkWalletConnection, WalletButton } from "./solana/solana-provider";
 import { Button, Link } from "@nextui-org/react";
+import { ModeToggle } from "./toggle";
 
 export function Header() {
   return (
@@ -89,6 +90,7 @@ function Navbar({ className }: { className?: string }) {
             }}
           />
         </div>
+        <ModeToggle/>
       </Menu>
     </div>
   );

@@ -5,6 +5,7 @@ import { Providers } from "@/components/provider";
 import { Header } from "@/components/header";
 import { SolanaProvider } from "../components/solana/solana-provider";
 import { ClusterProvider } from "../components/cluster/cluster-data-access";
+import { ThemeProvider } from "@/components/theme";
 
 const APP_NAME = "HF Onchain";
 const APP_DEFAULT_TITLE = "Huggingface Onchain";
@@ -67,10 +68,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="purple-dark">
+    <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
         <ClusterProvider>
           <SolanaProvider>
             <Providers>
@@ -78,6 +85,7 @@ export default function RootLayout({
             </Providers>
           </SolanaProvider>
         </ClusterProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

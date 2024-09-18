@@ -43,7 +43,7 @@ export default function Header() {
             </Link>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link href="/dataset" aria-current="page" color="secondary">
+            <Link href="/dataset" aria-current="page" color="primary">
               Datasets
             </Link>
           </NavbarItem>
