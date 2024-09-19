@@ -42,9 +42,14 @@ export default function Header() {
               Models
             </Link>
           </NavbarItem>
-          <NavbarItem isActive>
+          <NavbarItem>
             <Link href="/dataset" aria-current="page" color="primary">
               Datasets
+            </Link>
+          </NavbarItem>
+          <NavbarItem >
+            <Link href="/api" aria-current="page" color="primary">
+              Api
             </Link>
           </NavbarItem>
           <NavbarItem>
