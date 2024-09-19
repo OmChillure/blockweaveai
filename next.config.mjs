@@ -9,7 +9,13 @@ import {
       remotePatterns: [{
         hostname:"assets.aceternity.com",
         protocol:"https"
-      }]
+      }, {
+        protocol: 'https',
+        hostname: 'utfs.io',
+        port: '',
+        pathname: '/**'
+      },]
+      
     },
     reactStrictMode: true,
     experimental:{
