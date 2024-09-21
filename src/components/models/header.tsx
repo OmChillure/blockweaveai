@@ -48,8 +48,8 @@ export default function Header() {
             </Link>
           </NavbarItem>
           <NavbarItem >
-            <Link href="/api" aria-current="page" color="primary">
-              Api
+            <Link href="/ips" aria-current="page" color="primary">
+              IPS
             </Link>
           </NavbarItem>
           <NavbarItem>
