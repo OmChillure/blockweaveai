@@ -2,6 +2,7 @@
 
 import { Button } from "@nextui-org/react"
 import Image from 'next/image'
+import { BorderBeam } from "../components/ui/border-beam";
 
 export default function Hero() {
     return(
@@ -38,6 +39,7 @@ export default function Hero() {
                     priority={true}
                     className="dark:block rounded-[inherit] border object-contain shadow-lg hidden"
                 />
+                <BorderBeam size={250} duration={12} delay={9} />
             </div>
         </div>
     </div>
