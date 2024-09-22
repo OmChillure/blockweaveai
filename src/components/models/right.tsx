@@ -26,7 +26,7 @@ function Models() {
       fetchAllModels().then(() => {
         entries.forEach((entry) => {
           if (entry.ipfsHash) {
-            getFile(entry.ipfsHash).then((data) => {
+            getFile(entry.ipfsHash,"model").then((data) => {
               console.log(data);
             });
           }
@@ -48,7 +48,6 @@ function Models() {
       link.click();
       document.body.removeChild(link);
       
-      // Clean up the blob URL
       window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
       console.error('Download failed:', error);
@@ -63,7 +62,6 @@ function Models() {
 
     try {
       const allEntries = await program.account.modelEntryState.all();
-      console.log(allEntries);
 
       const formattedEntries = allEntries.map(entry => ({
         title: entry.account.title,

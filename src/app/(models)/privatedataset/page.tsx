@@ -8,7 +8,7 @@ import idl from '@/lib/idl_d.json';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const programId = new PublicKey('Hmg2DDJ8tLy7N8vTQfkuuj6JYyuRXAPLMQYZVt94hEpx');
+const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
 
 function PersonalDatasets() {
   const [entries, setEntries] = useState<Array<{ title: string; message: string; owner: string; ipfsHash: string }>>([]);
