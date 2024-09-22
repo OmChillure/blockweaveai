@@ -131,7 +131,7 @@ function PersonalModels() {
                     `${entry.title}.py`
                   )}
                 >
-                  Download
+                  Downloads
                   </Button>
             </Link>
           ))
