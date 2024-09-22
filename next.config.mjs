@@ -14,7 +14,13 @@ import {
         hostname: 'utfs.io',
         port: '',
         pathname: '/**'
-      },]
+      },
+      {
+        protocol: 'https',
+        hostname: 'gateway.pinata.cloud',
+        port: '',
+        pathname: '/ipfs/**'
+      }]
       
     },
     reactStrictMode: true,

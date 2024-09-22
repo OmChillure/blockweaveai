@@ -7,11 +7,15 @@ import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getFile } from '@/actions';
+import { Button } from '../ui/button';
 
-const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
+const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
 
 function Models() {
-  const [entries, setEntries] = useState<Array<{ title: string; message: string; owner: string }>>([]);
+  const [entries, setEntries] = useState<Array<{
+    ipfsHash: any; title: string; message: string; owner: string 
+}>>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
@@ -19,11 +23,37 @@ function Models() {
 
   useEffect(() => {
     if (connected && anchorWallet) {
-      fetchAllModels();
-    } else {
-      setEntries([]);
+      fetchAllModels().then(() => {
+        entries.forEach((entry) => {
+          if (entry.ipfsHash) {
+            getFile(entry.ipfsHash).then((data) => {
+              console.log(data);
+            });
+          }
+        });
+      });
     }
-  }, [connected, anchorWallet, publicKey]);
+  }, [connected, anchorWallet,publicKey]);
+
+  const downloadFile = async (url: any, filename: any) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up the blob URL
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
 
   const fetchAllModels = async () => {
     if (!anchorWallet) return;
@@ -33,11 +63,13 @@ function Models() {
 
     try {
       const allEntries = await program.account.modelEntryState.all();
+      console.log(allEntries);
 
       const formattedEntries = allEntries.map(entry => ({
         title: entry.account.title,
         message: entry.account.message,
         owner: entry.account.owner.toString(),
+        ipfsHash: entry.account.ipfsHash,
       }));
 
       setEntries(formattedEntries);
@@ -71,17 +103,29 @@ function Models() {
           <p className="text-gray-400 col-span-full text-center">No models found. Create some models first!</p>
         ) : (
           filteredEntries.reverse().map((entry, index) => (
-            <Link href={`/dashboard/${encodeURIComponent(entry.title)}`} key={index}>
               <div className="bg-[#0d0c0c] rounded-md shadow-md p-2 px-5 w-full flex flex-col h-[65px]">
                 <div className='flex gap-3'>
-                <Image src="/ai.png" width={20} height={20} alt={''} className='py-1' />
                 <h3 className="text-xl font-medium text-white">{entry.title}</h3>
                 </div>
                 <div>
                 <p className="text-gray-400 font-light text-sm overflow-hidden ">{entry.message}</p>
                 </div>
+                <div>
+                <Link href={`/dashboard/${encodeURIComponent(entry.title)}`}>
+                  <Button>
+                    View
+                  </Button>
+                  </Link>
+                  <Button
+                  onClick={() => downloadFile(
+                    `https://gateway.pinata.cloud/ipfs/${entry.ipfsHash}`,
+                    `${entry.title}.py`
+                  )}
+                >
+                  Download
+                  </Button>
+                </div>
               </div>
-            </Link>
           ))
         )}
       </div>
