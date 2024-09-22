@@ -7,12 +7,15 @@ import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { hash } from 'crypto';
 
-const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
+const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
 
 function PersonalModels() {
   const [entries, setEntries] = useState<Array<{
-    hash: string; title: string; message: string; owner: string 
+    ipfsHash: any;
+    hash: string; title: string; message: string; owner: string
 }>>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const anchorWallet = useAnchorWallet();
@@ -47,13 +50,34 @@ function PersonalModels() {
         title: entry.account.title,
         message: entry.account.message,
         owner: entry.account.owner.toString(),
-        hash: entry.account.ipfsHash,
+        hash: entry.account.hash,
+        ipfsHash: entry.account.ipfsHash,
       }));
       
       console.log(formattedEntries);
       setEntries(formattedEntries);
     } catch (error) {
       console.error('Error fetching personal Modells:', error);
+    }
+  };
+  
+  const downloadFile = async (url: any, filename: any) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up the blob URL
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Download failed:', error);
     }
   };
 
@@ -94,9 +118,21 @@ function PersonalModels() {
                 <Image src="/ai.png" width={20} height={20} alt={''} className='py-1' />
                 <h3 className="text-xl font-medium text-white">{entry.title}</h3>
               </div>
-                {/* <p className="text-gray-400 font-light overflow-hidden">{entry.message}</p> */}
                 <p className="text-gray-400 font-light overflow-hidden">{entry.hash}</p>
               </div>
+              <Link href={`/dashboard/${encodeURIComponent(entry.title)}`}>
+                  <Button>
+                    View
+                  </Button>
+                  </Link>
+                  <Button
+                  onClick={() => downloadFile(
+                    `https://gateway.pinata.cloud/ipfs/${entry.ipfsHash}`,
+                    `${entry.title}.py`
+                  )}
+                >
+                  Download
+                  </Button>
             </Link>
           ))
         )}

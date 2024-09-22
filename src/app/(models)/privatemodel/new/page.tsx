@@ -8,13 +8,14 @@ import idl from '@/lib/idl.json';
 import { upload } from '@/actions';
 import { FileUpload } from '@/components/ui/file-uploader';
 
-const programId = new PublicKey('Hzgm1oJcrME6x3qw2nRKc7ogT7uz52ixdFhHQNPancyf');
+const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
 
 function CreateModelEntry() {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; owner: string; ipfsHash: string }>(null);
+  const [ipfsHash, setIpfsHash] = useState('');
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
 
@@ -41,14 +42,19 @@ function CreateModelEntry() {
       const formData = new FormData();
       formData.append("file", files[0]);
       formData.append("userId", wallet.publicKey.toString());
-      const { hash: ipfsHash } = await upload(formData);
+      const { hash } = await upload(formData);
+      alert(hash)
+      setIpfsHash(hash);
+
 
       const [modelEntryPda] = PublicKey.findProgramAddressSync(
         [Buffer.from(title), wallet.publicKey.toBuffer()],
         programId
       );
 
-      const tx = await program.methods.createEntry(title, message, ipfsHash)
+      console.log(ipfsHash)
+
+      const tx = await program.methods.createEntry(title, message, hash)
         .accounts({
           modelEntry: modelEntryPda,
           owner: wallet.publicKey,
@@ -64,6 +70,7 @@ function CreateModelEntry() {
       setTitle('');
       setMessage('');
       setFiles([]);
+      setIpfsHash('');
     } catch (error) {
       console.error('Error creating model entry:', error);
       alert('Failed to create model entry');
