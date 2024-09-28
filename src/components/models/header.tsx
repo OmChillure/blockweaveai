@@ -33,7 +33,7 @@ export default function Header() {
         />
         <NavbarBrand className="mr-4">
           <Link href="/">
-          <p className="hidden sm:block font-bold text-foreground">Hf_onchain</p>
+          <p className="hidden sm:block font-bold text-foreground">Blockweave.ai</p>
           </Link>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-6 w-[70vw]">

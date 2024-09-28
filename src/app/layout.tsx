@@ -7,8 +7,8 @@ import { SolanaProvider } from "../components/solana/solana-provider";
 import { ClusterProvider } from "../components/cluster/cluster-data-access";
 import { ThemeProvider } from "@/components/theme";
 
-const APP_NAME = "HF Onchain";
-const APP_DEFAULT_TITLE = "Huggingface Onchain";
+const APP_NAME = "Blockweave Ai";
+const APP_DEFAULT_TITLE = "Blockweave AI";
 const APP_TITLE_TEMPLATE = "%s - HF Onchain";
 const APP_DESCRIPTION = "Decentralised Platform for models, datasets, repos";
 
