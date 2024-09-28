@@ -42,11 +42,10 @@ function CreateModelEntry() {
       const formData = new FormData();
       formData.append("file", files[0]);
       formData.append("userId", wallet.publicKey.toString());
+      formData.append("type", "model");
       const { hash } = await upload(formData);
       alert(hash)
       setIpfsHash(hash);
-
-
       const [modelEntryPda] = PublicKey.findProgramAddressSync(
         [Buffer.from(title), wallet.publicKey.toBuffer()],
         programId

@@ -1,83 +1,121 @@
 "use client"
-import React from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, getKeyValue} from "@nextui-org/react";
-import {columns, users} from "@/components/data";
 
-const statusColorMap:any = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
+import * as React from "react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { MoreHorizontal, Copy, Check } from "lucide-react"
+import { useState } from "react"
 
-export default function IPS() {
-  const renderCell = React.useCallback((user: any, columnKey: any) => {
-    const cellValue = user[columnKey];
+const columns = [
+  { name: "IP", uid: "ip" },
+  { name: "Protocols", uid: "protocols" },
+  { name: "Speed", uid: "speed" },
+  { name: "Port", uid: "port" },
+  { name: "Updated", uid: "updated" },
+  { name: "Uptime", uid: "uptime" },
+  { name: "Country", uid: "country" },
+  { name: "Latency", uid: "latency" },
+  { name: "ACTIONS", uid: "actions" },
+]
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{radius: "lg", src: user.avatar}}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.team}</p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip content="Details">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                {/* <EyeIcon /> */}
-              </span>
-            </Tooltip>
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                {/* <EditIcon /> */}
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                {/* <DeleteIcon /> */}
-              </span>
-            </Tooltip>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+const ips = [
+  {
+    id: 1,
+    ip: "0999",
+    protocols: "SOCKS5",
+    updated: "2023.32.4",
+    speed: "2",
+    port: "9000",
+    uptime: "78",
+    country: "US",
+    latency: "123"
+  }
+]
+
+export default function IPTable() {
+  const [copiedId, setCopiedId] = useState<number | null>(null)
+
+  const handleCopy = (ip: string, id: number) => {
+    navigator.clipboard.writeText(ip).then(() => {
+      setCopiedId(id)
+      setTimeout(() => setCopiedId(null), 2000) // Reset after 2 seconds
+    })
+  }
 
   return (
-  <Table aria-label="Example table with custom cells" className="col-span-10">
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={users} className="bg-black">
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+    <div className="container mx-auto p-8 w-screen">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {columns.map((column) => (
+              <TableHead key={column.uid}>{column.name}</TableHead>
+            ))}
           </TableRow>
-        )}
-      </TableBody>
-    </Table>
-  );
+        </TableHeader>
+        <TableBody>
+          {ips.map((ip) => (
+            <TableRow key={ip.id}>
+              <TableCell>
+                <div className="flex items-center space-x-2">
+                  <span>{ip.ip}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleCopy(ip.ip, ip.id)}
+                    className="h-8 w-8"
+                  >
+                    {copiedId === ip.id ? (
+                      <Check className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
+                    <span className="sr-only">Copy IP</span>
+                  </Button>
+                </div>
+              </TableCell>
+              <TableCell>{ip.protocols}</TableCell>
+              <TableCell>{ip.speed}</TableCell>
+              <TableCell>{ip.port}</TableCell>
+              <TableCell>{ip.updated}</TableCell>
+              <TableCell>{ip.uptime}</TableCell>
+              <TableCell>{ip.country}</TableCell>
+              <TableCell>{ip.latency}</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem>View Details</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  )
 }

@@ -8,12 +8,13 @@ import idl from '@/lib/idl_d.json';
 import { upload } from '@/actions';
 import { FileUpload } from '@/components/ui/file-uploader';
 
-const programId = new PublicKey('Hmg2DDJ8tLy7N8vTQfkuuj6JYyuRXAPLMQYZVt94hEpx');
+const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
 
 function CreateDatasetEntry() {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
   const [files, setFiles] = useState<File[]>([]);
+  const [ipfsHash, setIpfsHash] = useState('');
   const [lastEntry, setLastEntry] = useState<null | { title: string; message: string; owner: string; ipfsHash: string }>(null);
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
@@ -41,12 +42,17 @@ function CreateDatasetEntry() {
       const formData = new FormData();
       formData.append("file", files[0]);
       formData.append("userId", wallet.publicKey.toString());
-      const { hash: ipfsHash } = await upload(formData);
+      formData.append("type", "data");
+      const { hash } = await upload(formData);
+      alert(hash)
+      setIpfsHash(hash);
 
       const [dataEntryPda] = PublicKey.findProgramAddressSync(
         [Buffer.from(title), wallet.publicKey.toBuffer()],
         programId
       );
+
+      console.log(ipfsHash)
 
       const tx = await program.methods.createEntry(title, message, ipfsHash)
         .accounts({
@@ -64,6 +70,7 @@ function CreateDatasetEntry() {
       setTitle('');
       setMessage('');
       setFiles([]);
+      setIpfsHash('');
     } catch (error) {
       console.error('Error creating dataset entry:', error);
       alert('Failed to create dataset entry');
