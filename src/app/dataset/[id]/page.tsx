@@ -9,6 +9,7 @@ import idl from '@/lib/idl_d.json';
 import { ArrowDownToLine, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DatasetEntry } from "@/components/models/dataset";
+import { AI } from "@/components/models/AI";
 
 const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
 
@@ -87,6 +88,7 @@ export default function page({params}:{params:{id:string}}) {
             </Button>
           </div>
           <div className="bg-gray-700 px-6 py-4">
+              <AI/>
           </div>
         </div>
       </div>
