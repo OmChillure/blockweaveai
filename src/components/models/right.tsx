@@ -12,15 +12,15 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Download, Eye } from 'lucide-react';
 
 const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
+export interface ModelEntry {
+  title: string;
+  message: string;
+  owner: string;
+  ipfsHash: string;
+}
 
 function Models() {
-  interface ModelEntry {
-    title: string;
-    message: string;
-    owner: string;
-    ipfsHash: string;
-  }
-
+  
   const [entries, setEntries] = useState<ModelEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const anchorWallet = useAnchorWallet();
@@ -33,7 +33,7 @@ function Models() {
     }
   }, [connected, anchorWallet, publicKey]);
 
-  const downloadFile = async (url: any, filename: any) => {
+   const downloadFile = async (url: any, filename: any) => {
     try {
       const response = await fetch(url);
       const blob = await response.blob();
@@ -105,7 +105,7 @@ function Models() {
                 <CardDescription className="text-gray-400">{entry.message}</CardDescription>
               </CardHeader>
               <CardFooter className="flex justify-between">
-                <Link href={`/dashboard/${encodeURIComponent(entry.title)}`}>
+                <Link href={`/models/${entry.title}`}>
                   <Button variant="outline" size="sm">
                     <Eye className="w-4 h-4 mr-2" />
                     View

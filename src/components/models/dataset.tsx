@@ -14,13 +14,14 @@ import { Download, Eye } from 'lucide-react';
 
 const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
 
+export interface DatasetEntry {
+  title: string;
+  message: string;
+  owner: string;
+  ipfsHash: string;
+}
 function PersonalDatasets() {
-  interface DatasetEntry {
-    title: string;
-    message: string;
-    owner: string;
-    ipfsHash: string;
-  }
+  
   
   const [entries, setEntries] = useState<DatasetEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -113,7 +114,7 @@ function PersonalDatasets() {
                 <CardDescription className="text-gray-400">{entry.message}</CardDescription>
               </CardHeader>
               <CardFooter className="flex justify-between">
-                <Link href={`/dashboard/${encodeURIComponent(entry.title)}`}>
+                <Link href={`/dataset/${entry.title}`}>
                   <Button variant="outline" size="sm">
                     <Eye className="w-4 h-4 mr-2" />
                     View

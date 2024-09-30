@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Pencil, Trash, Plus, Save, X, Copy, Check } from 'lucide-react';
+import Header from '@/components/models/header';
 
 const programId = new PublicKey('BiQLNadXADtdXfV1Uk2YEUUFUgHLqEC7V8YnhonPoog6');
 
@@ -180,8 +181,9 @@ export default function ProxyEntries() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8 w-[80vw]">
-      <div className="flex justify-between items-center mb-8">
+    <div className="w-full">
+      <Header />
+      <div className="flex justify-between items-center my-8 px-4">
         <h1 className="text-3xl font-bold text-white">Proxy Entries</h1>
         <Input
           type="text"
@@ -197,7 +199,7 @@ export default function ProxyEntries() {
       ) : filteredEntries.length === 0 ? (
         <p className="text-gray-400 text-center">No proxy entries found. Create some entries first!</p>
       ) : (
-        <Table>
+        <Table className='px-4'>
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
@@ -293,7 +295,7 @@ export default function ProxyEntries() {
         </Table>
       )}
 
-      <div className="mt-8">
+      <div className="mt-8 px-4">
         <h2 className="text-2xl font-bold text-white mb-4">Add New Proxy</h2>
         <div className="flex space-x-2">
           <Input
