@@ -53,7 +53,7 @@ export default function Header() {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="https://blockweave-docs.vercel.app">
+            <Link color="foreground" href="https://blockweave-docs.vercel.app" target="_blank" rel="noopener noreferrer">
               Docs
             </Link>
           </NavbarItem>

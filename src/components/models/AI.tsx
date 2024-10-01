@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { SendHorizontalIcon } from "lucide-react"
+import { MessageCircleIcon, SendHorizontalIcon } from "lucide-react"
 import { useChat } from 'ai/react';
 import { RefreshCcw, SendIcon, StopCircleIcon, TrashIcon } from 'lucide-react';
 
@@ -44,7 +44,10 @@ export function AI() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Chat with AI</Button>
+        <Button className="hover:bg-transparent hover:text-black" variant="ghost">
+        <MessageCircleIcon className="mr-2 h-4 w-4" />
+          Chat with AI
+          </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] md:w-[80%]">
         <DialogHeader>
