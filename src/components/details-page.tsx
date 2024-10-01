@@ -37,14 +37,14 @@ export default function Details({dataset}:{dataset:DatasetEntry}) {
           <div className="grid grid-rows-[auto,1fr,auto] gap-4 p-4 lg:p-6">
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">{dataset.title??"Global Climate Change Dataset"}</h1>
-              <p className="text-gray-400">{dataset.owner??"By Climate Research Institute"}</p>
+              <p className="text-gray-400 text-sm w-[80%] overflow-x-scroll ">{dataset.owner??"By Climate Research Institute"}</p>
             </div>
             <div className="grid content-start gap-4">
               <p className="text-gray-300">
                 {dataset.message??"This comprehensive dataset includes global temperature records, CO2 levels, and sea level measurements from the past century, providing crucial insights into climate change trends and impacts."}
               </p>
             </div>
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-y-4 sm:gap-x-4">
               <Button variant="outline" className="w-full" onClick={()=>downloadFile(`https://gateway.pinata.cloud/ipfs/${dataset.ipfsHash}`,
                     `${dataset.title}.py`)} >
                 <DownloadIcon className="mr-2 h-4 w-4"/> Download Dataset

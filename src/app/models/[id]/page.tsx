@@ -8,6 +8,7 @@ import { PublicKey } from '@solana/web3.js';
 import idl from '@/lib/idl.json';
 import { ArrowDownToLine, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Details from "@/components/details-page";
 
 const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
 
@@ -69,27 +70,7 @@ export default function page({params}:{params:{id:string}}) {
   };
   if(model)
     return(
-    <div className="min-h-screen bg-gray-900 text-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-          <div className="p-6 sm:p-8">
-            <h1 className="text-3xl font-bold mb-4">{model.title}</h1>
-            <div className="flex items-center mb-6">
-              <User className="w-5 h-5 mr-2 text-gray-400" />
-              <span className="text-gray-400">{model.owner}</span>
-            </div>
-            <p className="text-gray-300 mb-8">{model.message}</p>
-            <Button className="w-full sm:w-auto flex items-center justify-center" onClick={()=>downloadFile(`https://gateway.pinata.cloud/ipfs/${model.ipfsHash}`,
-                    `${model.title}.py`)}>
-              <ArrowDownToLine className="mr-2 h-4 w-4" />
-              Download Model
-            </Button>
-          </div>
-          <div className="bg-gray-700 px-6 py-4">
-          </div>
-        </div>
-      </div>
-    </div>
+    <Details dataset={model} />
     )
     else return(
         <div>
