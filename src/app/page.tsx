@@ -1,6 +1,7 @@
 import { AccordionComponent } from "@/components/accordion-component";
 import { FeaturesSection } from "@/components/features";
 import { Footer } from "@/components/footer";
+import { TimelineDemo } from "@/components/future";
 import { Header } from "@/components/header";
 import Hero from "@/components/hero";
 
@@ -13,7 +14,7 @@ export default function Home() {
       <FeaturesSection />
       </div>
       <div className="flex justify-center items-center w-full mb-5">
-      <AccordionComponent />
+      <TimelineDemo />
       </div>
       <Footer /> 
     </div>
