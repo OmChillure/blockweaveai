@@ -5,7 +5,7 @@ import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl_d.json';
-import { upload } from '@/actions';
+import { getFile, upload } from '@/actions';
 import { FileUpload } from '@/components/ui/file-uploader';
 
 const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
@@ -44,6 +44,7 @@ function CreateDatasetEntry() {
       formData.append("userId", wallet.publicKey.toString());
       formData.append("type", "data");
       const { hash } = await upload(formData);
+      getFile(hash,"data")
       alert(hash)
       setIpfsHash(hash);
 
