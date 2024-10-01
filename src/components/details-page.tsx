@@ -37,7 +37,7 @@ export default function Details({dataset}:{dataset:DatasetEntry}) {
           <div className="grid grid-rows-[auto,1fr,auto] gap-4 p-4 lg:p-6">
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">{dataset.title??"Global Climate Change Dataset"}</h1>
-              <p className="text-gray-400">By Climate Research Institute</p>
+              <p className="text-gray-400">{dataset.owner??"By Climate Research Institute"}</p>
             </div>
             <div className="grid content-start gap-4">
               <p className="text-gray-300">
