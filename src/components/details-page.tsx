@@ -80,7 +80,7 @@ export default function Details({dataset,type}:{dataset:DatasetEntry,type:string
             <div className="grid sm:grid-cols-2 gap-y-4 sm:gap-x-4">
               {type=="data" ? <Button variant="outline" className="w-full" onClick={()=>
                   downloadFile(`https://${process.env.PINATA_GATEWAY_D}/ipfs/${dataset.ipfsHash}`,
-                  `${dataset.title}.py`) 
+                  `${dataset.title}.csv`) 
               } >
                 <DownloadIcon className="mr-2 h-4 w-4"/> Download Dataset
               </Button> :

@@ -1,6 +1,7 @@
 "use server"
 
 import { PinataSDK } from "pinata-web3";
+import axios from "axios"
 
 const pinata_m = new PinataSDK({
   pinataJwt: process.env.PINATA_JWT_M!,
@@ -15,6 +16,8 @@ export const upload = async (data: FormData) => {
     if (data.get('type')=="data") {
       const uploadResult = await pinata_d.upload.file(data.get("file") as File);
       console.log(uploadResult)
+      const res =await axios.post("https://solface-fastapi.onrender.com/upload",JSON.stringify({url:`https://${process.env.PINATA_GATEWAY_D}/ipfs/${uploadResult.IpfsHash}`,id:uploadResult.IpfsHash}))
+      console.log(res.data)
       return { hash: uploadResult.IpfsHash };
     }else{
       const uploadResult = await pinata_m.upload.file(data.get("file") as File);
