@@ -49,7 +49,7 @@ export function TimelineDemo() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            <p className="font-bold text-lg"> During This time we will focus on: </p>
+            <span className="font-bold text-lg"> During This time we will focus on: </span>
             <br />
             1. Adding account abstraction methods for web2 users using services. <br />
             2. Launching Our own API services. <br />

@@ -1,15 +1,13 @@
-'use client';
-
+"use client"
 import React, { useState, useEffect } from 'react';
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl_d.json';
 import Link from 'next/link';
-import { getFile } from '@/actions';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Download, Eye } from 'lucide-react';
 
 const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
@@ -20,9 +18,8 @@ export interface DatasetEntry {
   owner: string;
   ipfsHash: string;
 }
-function PersonalDatasets() {
-  
-  
+
+export default function PersonalDatasets() {
   const [entries, setEntries] = useState<DatasetEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const anchorWallet = useAnchorWallet();
@@ -35,7 +32,7 @@ function PersonalDatasets() {
     }
   }, [connected, anchorWallet]);
 
-  const downloadFile = async (url: any, filename: any) => {
+  const downloadFile = async (url: string, filename: string) => {
     try {
       const response = await fetch(url);
       const blob = await response.blob();
@@ -82,23 +79,16 @@ function PersonalDatasets() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-3 w-[95%]">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white">Personal Datasets</h1>
-        <div className="flex items-center gap-4">
-          <Input
-            type="text"
-            placeholder="Search datasets..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-xs"
-          />
-          {/* Uncomment when create dataset functionality is ready
-          <Link href="/privatedataset/new">
-            <Button>Create Dataset</Button>
-          </Link>
-          */}
-        </div>
+        <h1 className="text-3xl font-bold text-white">Datasets</h1>
+        <Input
+          type="text"
+          placeholder="Search datasets..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="max-w-xs"
+        />
       </div>
       
       {!connected ? (
@@ -106,38 +96,44 @@ function PersonalDatasets() {
       ) : filteredEntries.length === 0 ? (
         <p className="text-gray-400 text-center">No datasets found. Create some datasets first!</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredEntries.reverse().map((entry, index) => (
-            <Card key={index} className="bg-gray-800 text-white">
-              <CardHeader>
-                <CardTitle>{entry.title}</CardTitle>
-                <CardDescription className="text-gray-400">{entry.message}</CardDescription>
-              </CardHeader>
-              <CardFooter className="flex justify-between">
-                <Link href={`/dataset/${entry.title}`}>
-                  <Button variant="outline" size="sm">
-                    <Eye className="w-4 h-4 mr-2" />
-                    View
-                  </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => downloadFile(
-                    `https://gateway.pinata.cloud/ipfs/${entry.ipfsHash}`,
-                    `${entry.title}.pdf`
-                  )}
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
-                </Button>
-              </CardFooter>
+          <Link href={`/dataset/${entry.title}`}>
+            <Card key={index} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="p-4 flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-red-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+                  {entry.title.charAt(0).toUpperCase()}
+                </div>
+                <div className="flex-grow min-w-0">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">{entry.title}</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{entry.message}</p>
+                  {/* <div className="mt-2 flex space-x-2">
+                    <Link href={`/dataset/${entry.title}`}>
+                      <Button variant="outline" size="sm" className="text-xs">
+                        <Eye className="w-3 h-3 mr-1" />
+                        View
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-xs"
+                      onClick={() => downloadFile(
+                        `https://gateway.pinata.cloud/ipfs/${entry.ipfsHash}`,
+                        `${entry.title}.pdf`
+                      )}
+                    >
+                      <Download className="w-3 h-3 mr-1" />
+                      Download
+                    </Button>
+                  </div> */}
+                </div>
+              </CardContent>
             </Card>
+          </ Link>
           ))}
         </div>
       )}
     </div>
   );
 }
-
-export default PersonalDatasets;

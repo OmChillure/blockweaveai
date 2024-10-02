@@ -4,12 +4,9 @@ import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapte
 import { PublicKey } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl.json';
-import Link from 'next/link';
-import { getFile } from '@/actions';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Download, Eye } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
 
 const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
 export interface ModelEntry {
@@ -20,7 +17,6 @@ export interface ModelEntry {
 }
 
 function Models() {
-  
   const [entries, setEntries] = useState<ModelEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const anchorWallet = useAnchorWallet();
@@ -32,25 +28,6 @@ function Models() {
       fetchAllModels();
     }
   }, [connected, anchorWallet, publicKey]);
-
-   const downloadFile = async (url: any, filename: any) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error('Download failed:', error);
-    }
-  };
 
   const fetchAllModels = async () => {
     if (!anchorWallet) return;
@@ -80,7 +57,7 @@ function Models() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-6 w-[95%]">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">Models</h1>
         <Input
@@ -97,33 +74,21 @@ function Models() {
       ) : filteredEntries.length === 0 ? (
         <p className="text-gray-400 text-center">No models found. Create some models first!</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredEntries.reverse().map((entry, index) => (
-            <Card key={index} className="bg-gray-800 text-white">
-              <CardHeader>
-                <CardTitle>{entry.title}</CardTitle>
-                <CardDescription className="text-gray-400">{entry.message}</CardDescription>
-              </CardHeader>
-              <CardFooter className="flex justify-between">
-                <Link href={`/models/${entry.title}`}>
-                  <Button variant="outline" size="sm">
-                    <Eye className="w-4 h-4 mr-2" />
-                    View
-                  </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => downloadFile(
-                    `https://gateway.pinata.cloud/ipfs/${entry.ipfsHash}`,
-                    `${entry.title}.py`
-                  )}
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
-                </Button>
-              </CardFooter>
+          <Link href={`/models/${entry.title}`}>
+            <Card key={index} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="p-4 flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-red-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+                  {entry.title.charAt(0).toUpperCase()}
+                </div>
+                <div className="flex-grow min-w-0">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">{entry.title}</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{entry.message}</p>
+                </div>
+              </CardContent>
             </Card>
+          </Link>
           ))}
         </div>
       )}

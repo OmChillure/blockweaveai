@@ -105,9 +105,6 @@ export default function Header() {
               Upload Datasets
               </Link>
             </DropdownItem>
-            <DropdownItem key="system">System</DropdownItem>
-            <DropdownItem key="configurations">Configurations</DropdownItem>
-            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
             <DropdownItem key="logout" color="danger">
               <Link href="/">
               Log Out
