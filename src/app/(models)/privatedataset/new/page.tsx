@@ -55,7 +55,7 @@ function CreateDatasetEntry() {
 
       console.log(ipfsHash)
 
-      const tx = await program.methods.createEntry(title, message, ipfsHash)
+      const tx = await program.methods.createEntry(title, message, hash)
         .accounts({
           datasetEntry: dataEntryPda,
           owner: wallet.publicKey,

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 import { PublicKey } from '@solana/web3.js';
 import idl from '@/lib/idl_d.json';
 import { DatasetEntry } from "@/components/models/dataset";
-import { AI } from "@/components/models/AI";
 import Details from "@/components/details-page";
 
 const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
@@ -69,7 +68,7 @@ export default function page({params}:{params:{id:string}}) {
   };
   if(dataset)
     return(
-      <Details dataset={dataset} />
+      <Details dataset={dataset} type="data"/>
     )
     else return(
         <div>

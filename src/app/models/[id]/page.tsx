@@ -70,7 +70,7 @@ export default function page({params}:{params:{id:string}}) {
   };
   if(model)
     return(
-    <Details dataset={model} />
+    <Details dataset={model} type="model"/>
     )
     else return(
         <div>
