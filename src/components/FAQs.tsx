@@ -6,9 +6,9 @@ import clsx from "clsx";
 import {motion , AnimatePresence} from 'framer-motion';
 const items = [
   {
-    question: "What payment methods do you accept?",
+    question: "What is Blockweave AI",
     answer:
-      "We accept all major credit cards, PayPal, and various other payment methods depending on your location. Please contact our support team for more information on accepted payment methods in your region.",
+      "Blockweave AI is onchain store for ai models, datasets and ips which can be used for personal uses.",
   },
   {
     question: "How does the pricing work for teams?",
@@ -16,9 +16,9 @@ const items = [
       "Our pricing is per user, per month. This means you only pay for the number of team members you have on your account. Discounts are available for larger teams and annual subscriptions.",
   },
   {
-    question: "Can I change my plan later?",
+    question: "How can we contact the team?",
     answer:
-      "Yes, you can upgrade or downgrade your plan at any time. Changes to your plan will be prorated and reflected in your next billing cycle.",
+      "You can contact the team by writing a mail @xxxxxxxxxxx.gmail.com",
   },
   {
     question: "Is my data secure?",

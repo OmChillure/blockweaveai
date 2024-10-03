@@ -1,4 +1,4 @@
-import Bentodemo from './bentogrid';
+import Bentodemo from './ui/bentogrid';
 
 export const Features = () => {
   return (

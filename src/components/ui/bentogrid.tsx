@@ -3,9 +3,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const logos = [
-  "https://res.cloudinary.com/dl2adjye7/image/upload/v1716817722/Amazon_icon.svg_a4qmtg.png",
-  "https://res.cloudinary.com/dl2adjye7/image/upload/v1716800282/Apple_logo_black.svg_seeetv.png",
-  "https://res.cloudinary.com/dl2adjye7/image/upload/v1716800359/WISE.L-b3d3de3c_rexehe.png"
+  "https://utfs.io/f/Ejk0YhBR15NV8koMKw3aRkA60xhuLiKpfQY3ZCIsjqBoS7Pd",
+  "https://utfs.io/f/Ejk0YhBR15NVk5WV1jChPDh0Nbfrsjtlq96Io52nxMYaiX4F",
+  "https://utfs.io/f/Ejk0YhBR15NV5jR0Z8hAbH2KtSEcvZIN1pDPWjzAf8GXhLe7"
+];
+
+const logosOther = [
+  "https://utfs.io/f/Ejk0YhBR15NVTTsceWw5ty2UQ0LsbRv1kZzHKXW9Noc4iqSh",
+  "https://utfs.io/f/Ejk0YhBR15NVSkxOfe6hAfm5FzOrbdHgTjxEi3YyKIC7k469",
+  "https://utfs.io/f/Ejk0YhBR15NV6b54gUGCkiP3NmguMTUy5LEqoh81IbQ9HrX2"
 ];
 
 const lineWidth = 80; 
@@ -119,7 +125,7 @@ const AWSIcon = () => {
     <div className="flex flex-col justify-center h-full items-center relative">
          <div className="flex flex-row gap-8 justify-center h-full items-center relative">
          <div className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
-          <img src={logos[0]} alt="Logo 2" className="filter invert brightness-0" />
+          <img src={logosOther[0]} alt="Logo 2" className="filter invert brightness-0" />
           <motion.div
             className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
             initial={{ x: '-100%' }}
@@ -134,7 +140,7 @@ const AWSIcon = () => {
           />
         </div>
         <div className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
-          <img src={logos[1]} alt="Logo 2" className="filter invert brightness-0" />
+          <img src={logosOther[1]} alt="Logo 2" className="filter invert brightness-0" />
           <motion.div
             className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
             initial={{ x: '-100%' }}
@@ -149,7 +155,7 @@ const AWSIcon = () => {
           />
         </div>
         <div className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
-          <img src={logos[2]} alt="Logo 2" className="filter invert brightness-0" />
+          <img src={logosOther[2]} alt="Logo 2" className="filter invert brightness-0" />
           <motion.div
             className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
             initial={{ x: '-100%' }}
@@ -167,8 +173,8 @@ const AWSIcon = () => {
 
       
       <div className="text-left p-6 mt-4">
-        <h1 className="text-white text-2xl font-bold mb-2">AWS Integration</h1>
-        <p className="text-gray-400 text-lg">integrate AWS and use seamlessly with us.</p>
+        <h1 className="text-white text-2xl font-bold mb-2">Multiple Technologies</h1>
+        <p className="text-gray-400 text-lg">Uplaod AI models, datasets and ips and earn a fortune.</p>
       </div>
     </div>
   );
@@ -276,8 +282,8 @@ const BentoBox1 = () => {
             <div className="flex flex-col justify-center h-full">
               <LogoBeam />
               <div className="text-left p-6">
-                <h1 className="text-white text-2xl font-bold mb-2">Multiple Technologies</h1>
-                <p className="text-white/70 text-lg">Fly through your tasks with rapid-fire keyboard shortcuts for everything. Literally everything.</p>
+                <h1 className="text-white text-2xl font-bold mb-2">Onchain & Ipfs Storage</h1>
+                <p className="text-white/70 text-lg">All the data is stored on Ipfs and hash pushed on Solana, just making it super secure.</p>
               </div>
             </div>
           </CardWithEffect>

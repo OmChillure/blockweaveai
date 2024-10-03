@@ -1,10 +1,10 @@
 import Image from 'next/image'
-import acmeLogo from "../assets/images/acme.png";
-import quantumLogo from "../assets/images/quantum.png";
-import echoLogo from "../assets/images/echo.png";
-import celestialLogo from "../assets/images/celestial.png";
-import pulseLogo from "../assets/images/pulse.png";
-import apexLogo from "../assets/images/apex.png";
+import acmeLogo from "../../assets/images/acme.png";
+import quantumLogo from "../../assets/images/quantum.png";
+import echoLogo from "../../assets/images/echo.png";
+import celestialLogo from "../../assets/images/celestial.png";
+import pulseLogo from "../../assets/images/pulse.png";
+import apexLogo from "../../assets/images/apex.png";
 
 export default function LogoCarousel() {
 

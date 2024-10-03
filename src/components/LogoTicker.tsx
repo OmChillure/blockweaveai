@@ -5,7 +5,7 @@ import celestialLogo from "../assets/images/celestial.png";
 import pulseLogo from "../assets/images/pulse.png";
 import apexLogo from "../assets/images/apex.png";
 import Image from 'next/image';
-import LogoCarousel from "./companylogos";
+import LogoCarousel from "./ui/companylogos";
 
 const images = [
   { src: acmeLogo, alt: "Acme Logo" },
