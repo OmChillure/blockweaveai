@@ -7,7 +7,7 @@ import {
   ProductItem,
 } from "@/components/ui/navbar";
 import { cn } from "@/lib/utils";
-import { isWalletConnected as checkWalletConnection, WalletButton } from "./solana/solana-provider";
+import { IsWalletConnected as checkWalletConnection, WalletButton } from "./solana/solana-provider";
 import { Button, Link } from "@nextui-org/react";
 import { ModeToggle } from "./toggle";
 
