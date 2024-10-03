@@ -20,7 +20,7 @@ export const Navbar = () => {
       <div className="py-4 flex items-center justify-between">
 
       <div className="relative">
-        {/* <div className='absolute w-full top-2 bottom-0 bg-[linear-gradient(to_right,#F7AABE,#B57CEC,#E472D1)] blur-md '></div> */}
+        {/* <div className='absolute w-full top-2 bg-[linear-gradient(to_right,#F7AABE,#B57CEC,#E472D1)] blur-md '></div> */}
       <Image src={LogoImage} alt="Logo" className="h-16 w-16 relative mt-1 ml-5"/>
       {/* <LogoImage className="h-12 w-12 relative mt-1"/> */}
       </div>
