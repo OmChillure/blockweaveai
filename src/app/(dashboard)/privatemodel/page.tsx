@@ -31,14 +31,14 @@ function PersonalModels() {
 
   useEffect(() => {
     if (connected && anchorWallet) {
-      fetchPersonalModells();
+      fetchPersonalModels();
     } else {
       setEntries([]);
       setIsLoading(false);
     }
   }, [connected, anchorWallet]);
 
-  const fetchPersonalModells = async () => {
+  const fetchPersonalModels = async () => {
     if (!anchorWallet) return;
     setIsLoading(true);
 
@@ -65,7 +65,7 @@ function PersonalModels() {
       
       setEntries(formattedEntries);
     } catch (error) {
-      console.error('Error fetching personal Modells:', error);
+      console.error('Error fetching personal models:', error);
     } finally {
       setIsLoading(false);
     }
@@ -107,18 +107,18 @@ function PersonalModels() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredEntries.reverse().map((entry, index) => (
-            <Link href={`/privatemodel/${entry.title}`}>
-            <Card key={index} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="p-4 flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
-                  {entry.title.charAt(0).toUpperCase()}
-                </div>
-                <div className="flex-grow min-w-0">
-                  <h2 className="text-lg font-semibold text-white truncate">{entry.title}</h2>
-                  <h2 className="text-sm text-gray-300 truncate">{entry.message}</h2>
-                </div>
-              </CardContent>
-            </Card>
+            <Link href={`/privatemodel/${entry.title}`} key={`${entry.title}-${index}`}>
+              <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <CardContent className="p-4 flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+                    {entry.title.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-grow min-w-0">
+                    <h2 className="text-lg font-semibold text-white truncate">{entry.title}</h2>
+                    <h2 className="text-sm text-gray-300 truncate">{entry.message}</h2>
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
           ))}
         </div>

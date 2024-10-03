@@ -110,7 +110,7 @@ export default function Details({dataset,type}:{dataset:DatasetEntry,type:string
         <div className='text-white/70 overflow-hidden scroll-hidden relative flex flex-col items-center gap-y-3 p-5 bg-zinc-900'>
       <div className='md:w-[50%] h-[50svh] md:h-[60svh] no-scrollbar w-[97%] overflow-y-scroll flex flex-col gap-y-1'>
         {messages.map(message => (
-          <div className={`flex flex-col w-fit gap-y-1 ${message.role==='user'? " self-end":" self-start"}`}>
+          <div key={message.id} className={`flex flex-col w-fit gap-y-1 ${message.role==='user'? " self-end":" self-start"}`}>
             <div key={message.id} className={`p-3 w-fit rounded-lg ${message.role==='user'? " bg-green-600":" bg-white/5"}`}>
               {message.content}
             </div>

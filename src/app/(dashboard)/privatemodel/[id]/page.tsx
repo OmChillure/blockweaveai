@@ -12,69 +12,71 @@ import Details from "@/components/details-page";
 
 const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
 
-export default function page({params}:{params:{id:string}}) {
-    const [model,setModel] = useState<ModelEntry>()
+export default function Page({params}: {params: {id: string}}) {
+    const [model, setModel] = useState<ModelEntry>()
     const anchorWallet = useAnchorWallet();
     const { connection } = useConnection();
-    const [loading,setLoading] = useState(false)
-  const { connected, publicKey } = useWallet();
-  const {id} = params
+    const [loading, setLoading] = useState(false)
+    const { connected, publicKey } = useWallet();
+    const { id } = params
 
-  useEffect(() => {
-    if (connected && anchorWallet) {
-     fetchModel();
-    }
-  }, [connected, anchorWallet, publicKey,id]);
-  const downloadFile = async (url: any, filename: any) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error('Download failed:', error);
-    }
-  };
-  const fetchModel = async () => {
+    useEffect(() => {
+        if (connected && anchorWallet) {
+            fetchModel();
+        }
+    }, [connected, anchorWallet, publicKey, id]);
 
-    if (!anchorWallet) return;
+    const downloadFile = async (url: string, filename: string) => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            window.URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.error('Download failed:', error);
+        }
+    };
+
+    const fetchModel = async () => {
+        if (!anchorWallet) return;
         setLoading(true)
 
-    const provider = new AnchorProvider(connection, anchorWallet, {});
-    const program = new Program(idl as Idl, programId, provider);
+        const provider = new AnchorProvider(connection, anchorWallet, {});
+        const program = new Program(idl as Idl, programId, provider);
 
-    try {
-      const allEntries = await program.account.modelEntryState.all();
+        try {
+            const allEntries = await program.account.modelEntryState.all();
 
-      const formattedEntries = allEntries.map(entry => ({
-        title: entry.account.title,
-        message: entry.account.message,
-        owner: entry.account.owner.toString(),
-        ipfsHash: entry.account.ipfsHash,
-      }));
-      const detail = formattedEntries.find(model=>model.title.toLocaleLowerCase().replace(" ","_")==id)
-      setModel(detail);
-      setLoading(false)
-    } catch (error) {
-        setLoading(false)
-      console.error('Error fetching models:', error);
-    }
-  };
-  if(model)
-    return(
-   <div className="w-[82.4vw]">
-    <Details dataset={model} type="model"/>
-    </div>
-    )
-    else return(
+            const formattedEntries = allEntries.map(entry => ({
+                title: entry.account.title,
+                message: entry.account.message,
+                owner: entry.account.owner.toString(),
+                ipfsHash: entry.account.ipfsHash,
+            }));
+            const detail = formattedEntries.find(model => model.title.toLowerCase().replace(" ", "_") === id)
+            setModel(detail);
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            console.error('Error fetching models:', error);
+        }
+    };
+
+    if (model)
+        return (
+            <div className="w-[82.4vw]">
+                <Details dataset={model} type="model"/>
+            </div>
+        )
+    else return (
         <div>
             {loading ? "Loading" : "Not found"}
         </div>
