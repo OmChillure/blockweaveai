@@ -25,7 +25,7 @@ export default function RootLayout({
           <SolanaProvider>
             <Providers>
               {children}
-            </Providers>
+            </Providers> 
           </SolanaProvider>
         </ClusterProvider>
       </body>
