@@ -18,7 +18,7 @@ export const WalletButton = dynamic(
   { ssr: false }
 );
 
-export const isWalletConnected = () => {
+export const IsWalletConnected = () => {
   const { connected } = useWallet();
   return useMemo(() => connected, [connected]);
 }

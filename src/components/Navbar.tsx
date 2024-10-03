@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import Image from 'next/image';
 import LogoImage from '../assets/icons/logo.png';
 import MenuIcon from '../assets/icons/menu.svg';
-import { ModeToggle } from './toggle';
-import { isWalletConnected as checkWalletConnection, WalletButton } from "./solana/solana-provider";
+import { IsWalletConnected as checkWalletConnection, WalletButton } from "./solana/solana-provider";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
