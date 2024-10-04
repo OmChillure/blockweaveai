@@ -105,7 +105,7 @@ export default function ModelDetailsPage({params}:{params:{id:string}}) {
                 ) : (
                     <div className="text-center">
                         <p className="text-2xl font-bold mb-4">Model Not Found</p>
-                        <p>The model you're looking for doesn't exist or has been removed.</p>
+                        <p>The model youre looking for doesnt exist or has been removed.</p>
                     </div>
                 )}
             </div>
