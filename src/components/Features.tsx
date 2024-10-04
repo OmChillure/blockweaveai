@@ -3,7 +3,7 @@ import Bentodemo from './ui/bentogrid';
 export const Features = () => {
   return (
 
-    <div className="bg-black text-white py-[72px] sm:py-24 ">
+    <div className="bg-black text-white py-[72px] ">
 
       <div className="container">
         <h2 className="text-center font-bold text-5xl sm:text-6xl tracking-tighter">Everything you need </h2>

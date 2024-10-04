@@ -18,7 +18,7 @@ export default function Home() {
       
       <Features />
       
-      <ProductShowcase />
+  <ProductShowcase />
       <TimelineView />
       <FAQs />
      

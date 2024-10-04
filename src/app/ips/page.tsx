@@ -181,7 +181,7 @@ export default function ProxyEntries() {
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-gradient-to-br from-black via-gray-900 to-purple-900">
       <Header />
       <div className="flex justify-between items-center my-8 px-4">
         <h1 className="text-3xl font-bold text-white">Proxy Entries</h1>
@@ -295,7 +295,7 @@ export default function ProxyEntries() {
         </Table>
       )}
 
-      <div className="mt-8 px-4">
+      <div className="mt-8 px-4 ">
         <h2 className="text-2xl font-bold text-white mb-4">Add New Proxy</h2>
         <div className="flex space-x-2">
           <Input
