@@ -103,21 +103,6 @@ export const Footer = () => {
                         Customers
                       </a>
                     </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Enterprise
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Partners
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Jobs
-                      </a>
-                    </li>
                   </ul>
                 </div>
                 <div>
@@ -133,21 +118,6 @@ export const Footer = () => {
                     <li>
                       <a href="#" className="transition hover:text-cyan-600">
                         Customers
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Enterprise
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Partners
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Jobs
                       </a>
                     </li>
                   </ul>
