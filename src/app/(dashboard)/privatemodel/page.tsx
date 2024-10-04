@@ -1,319 +1,130 @@
-"use client"
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
-import { Program, AnchorProvider, Idl, web3, BN } from '@project-serum/anchor';
-import idl from '@/lib/idl_ip.json';
-import { Button } from '@/components/ui/button';
+import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
+import idl from '@/lib/idl.json';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Pencil, Trash, Plus, Save, X, Copy, Check } from 'lucide-react';
-import Header from '@/components/models/header';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Loader2 } from 'lucide-react';
 
-const programId = new PublicKey('BiQLNadXADtdXfV1Uk2YEUUFUgHLqEC7V8YnhonPoog6');
+const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
 
-export default function ProxyEntries() {
-  interface ProxyEntry {
-    id: string;
-    ip: string;
-    protocols: string;
-    country: string;
-    port: string;
-    updated: number;
+function PersonalModels() {
+  interface Entry {
+    title: string;
+    message: string;
+    owner: string;
+    hash: string;
+    ipfsHash: string;
   }
 
-  const [entries, setEntries] = useState<ProxyEntry[]>([]);
+  const [entries, setEntries] = useState<Entry[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [newEntry, setNewEntry] = useState({ id: '', ip: '', protocols: '', country: '', port: '' });
-  const [editingEntry, setEditingEntry] = useState<ProxyEntry | null>(null);
-  const [copiedField, setCopiedField] = useState<{ id: string, field: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
   const { connected } = useWallet();
 
   useEffect(() => {
     if (connected && anchorWallet) {
-      fetchAllProxies();
+      fetchPersonalModels();
+    } else {
+      setEntries([]);
+      setIsLoading(false);
     }
   }, [connected, anchorWallet]);
 
-  const fetchAllProxies = async () => {
+  const fetchPersonalModels = async () => {
     if (!anchorWallet) return;
+    setIsLoading(true);
 
     const provider = new AnchorProvider(connection, anchorWallet, {});
     const program = new Program(idl as Idl, programId, provider);
 
     try {
-      const allEntries = await program.account.proxyEntryState.all();
+      const allEntries = await program.account.modelEntryState.all([
+        {
+          memcmp: {
+            offset: 8,
+            bytes: anchorWallet.publicKey.toBase58(),
+          },
+        },
+      ]);
 
       const formattedEntries = allEntries.map(entry => ({
-        id: entry.account.id.toString(),
-        ip: entry.account.ip,
-        protocols: entry.account.protocols,
-        country: entry.account.country,
-        port: entry.account.port,
-        updated: entry.account.updated.toNumber(),
+        title: entry.account.title,
+        message: entry.account.message,
+        owner: entry.account.owner.toString(),
+        hash: entry.account.hash,
+        ipfsHash: entry.account.ipfsHash,
       }));
-
+      
       setEntries(formattedEntries);
     } catch (error) {
-      console.error('Error fetching proxies:', error);
+      console.error('Error fetching personal models:', error);
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const handleCreate = async () => {
-    if (!anchorWallet) return;
-
-    const provider = new AnchorProvider(connection, anchorWallet, {});
-    const program = new Program(idl as Idl, programId, provider);
-
-    try {
-      const idNumber = parseInt(newEntry.id);
-      if (isNaN(idNumber)) {
-        throw new Error("ID must be a valid number");
-      }
-
-      const [proxyEntryPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from(new BN(idNumber).toArray('le', 8)), anchorWallet.publicKey.toBuffer()],
-        program.programId
-      );
-
-      await program.methods.createProxy(
-        new BN(idNumber),
-        newEntry.ip,
-        newEntry.protocols,
-        newEntry.country,
-        newEntry.port
-      )
-      .accounts({
-        proxyEntry: proxyEntryPda,
-        owner: anchorWallet.publicKey,
-        systemProgram: web3.SystemProgram.programId,
-      })
-      .rpc();
-
-      fetchAllProxies();
-      setNewEntry({ id: '', ip: '', protocols: '', country: '', port: '' });
-    } catch (error) {
-      console.error("Error creating proxy:", error);
-    }
-  };
-
-  const handleUpdate = async (entry: ProxyEntry) => {
-    if (!anchorWallet) return;
-
-    const provider = new AnchorProvider(connection, anchorWallet, {});
-    const program = new Program(idl as Idl, programId, provider);
-
-    try {
-      const idNumber = parseInt(entry.id);
-      if (isNaN(idNumber)) {
-        throw new Error("ID must be a valid number");
-      }
-
-      const [proxyEntryPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from(new BN(idNumber).toArray('le', 8)), anchorWallet.publicKey.toBuffer()],
-        program.programId
-      );
-
-      await program.methods.updateProxy(
-        entry.ip,
-        entry.protocols,
-        entry.country,
-        entry.port
-      )
-      .accounts({
-        proxyEntry: proxyEntryPda,
-        owner: anchorWallet.publicKey,
-      })
-      .rpc();
-
-      fetchAllProxies();
-      setEditingEntry(null);
-    } catch (error) {
-      console.error("Error updating proxy:", error);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!anchorWallet) return;
-
-    const provider = new AnchorProvider(connection, anchorWallet, {});
-    const program = new Program(idl as Idl, programId, provider);
-
-    try {
-      const idNumber = parseInt(id);
-      if (isNaN(idNumber)) {
-        throw new Error("ID must be a valid number");
-      }
-
-      const [proxyEntryPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from(new BN(idNumber).toArray('le', 8)), anchorWallet.publicKey.toBuffer()],
-        program.programId
-      );
-
-      await program.methods.deleteProxy()
-        .accounts({
-          proxyEntry: proxyEntryPda,
-          owner: anchorWallet.publicKey,
-        })
-        .rpc();
-
-      fetchAllProxies();
-    } catch (error) {
-      console.error("Error deleting proxy:", error);
-    }
-  };
-
-  const handleCopy = (id: string, field: string, value: string) => {
-    navigator.clipboard.writeText(value).then(() => {
-      setCopiedField({ id, field });
-      setTimeout(() => setCopiedField(null), 2000); // Reset after 2 seconds
-    });
   };
 
   const filteredEntries = entries.filter(entry =>
-    entry.ip.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.protocols.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.port.toLowerCase().includes(searchTerm.toLowerCase())
+    entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    entry.message.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-black via-gray-900 to-purple-900">
-      <Header />
-      <div className="flex justify-between items-center my-8 px-4">
-        <h1 className="text-3xl font-bold text-white">Proxy Entries</h1>
-        <Input
-          type="text"
-          placeholder="Search proxies..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-xs"
-        />
+    <div className="container mx-auto px-4 py-6 w-[82.4vw] bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white min-h-screen">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Personal Models</h1>
+        <div className="flex items-center gap-4">
+          <Input
+            type="text"
+            placeholder="Search models..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="max-w-xs bg-gray-800 text-white border-gray-700"
+          />
+          <Link href="/privatemodel/new">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white text-md">
+              Create
+            </Button>
+          </Link>
+      </div>
       </div>
       
       {!connected ? (
-        <p className="text-gray-400 text-center">Please connect your wallet to view proxy entries.</p>
-      ) : filteredEntries.length === 0 ? (
-        <p className="text-gray-400 text-center">No proxy entries found. Create some entries first!</p>
-      ) : (
-        <Table className='px-4'>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>IP</TableHead>
-              <TableHead>Protocols</TableHead>
-              <TableHead>Country</TableHead>
-              <TableHead>Port</TableHead>
-              <TableHead>Updated</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredEntries.map((entry) => (
-              <TableRow key={entry.id}>
-                <TableCell>{entry.id}</TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-2">
-                    <span>{editingEntry?.id === entry.id ? 
-                      <Input value={editingEntry.ip} onChange={(e) => setEditingEntry({...editingEntry, ip: e.target.value})} /> : 
-                      entry.ip}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleCopy(entry.id, 'ip', entry.ip)}
-                      className="p-1"
-                    >
-                      {copiedField?.id === entry.id && copiedField?.field === 'ip' ? (
-                        <Check className="h-4 w-4 text-green-500" />
-                      ) : (
-                        <Copy className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {editingEntry?.id === entry.id ? 
-                    <Input value={editingEntry.protocols} onChange={(e) => setEditingEntry({...editingEntry, protocols: e.target.value})} /> : 
-                    entry.protocols
-                  }
-                </TableCell>
-                <TableCell>
-                  {editingEntry?.id === entry.id ? 
-                    <Input value={editingEntry.country} onChange={(e) => setEditingEntry({...editingEntry, country: e.target.value})} /> : 
-                    entry.country
-                  }
-                </TableCell>
-                <TableCell>
-                  {editingEntry?.id === entry.id ? 
-                    <Input value={editingEntry.port} onChange={(e) => setEditingEntry({...editingEntry, port: e.target.value})} /> : 
-                    entry.port
-                  }
-                </TableCell>
-                <TableCell>{new Date(entry.updated).toLocaleString()}</TableCell>
-                <TableCell>
-                  <div className="flex space-x-2">
-                    {editingEntry?.id === entry.id ? (
-                      <Button onClick={() => handleUpdate(editingEntry)} className="p-1">
-                        <Save className="h-4 w-4" />
-                      </Button>
-                    ) : (
-                      <Button onClick={() => setEditingEntry(entry)} className="p-1">
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                    )}
-                    <Button onClick={() => handleDelete(entry.id)} className="p-1">
-                      <Trash className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-
-      <div className="my-8 px-4">
-        <h2 className="text-2xl font-bold text-white mb-4">Add New Proxy Entry</h2>
-        <div className="flex space-x-4">
-          <Input
-            type="text"
-            placeholder="ID"
-            value={newEntry.id}
-            onChange={(e) => setNewEntry({ ...newEntry, id: e.target.value })}
-          />
-          <Input
-            type="text"
-            placeholder="IP"
-            value={newEntry.ip}
-            onChange={(e) => setNewEntry({ ...newEntry, ip: e.target.value })}
-          />
-          <Input
-            type="text"
-            placeholder="Protocols"
-            value={newEntry.protocols}
-            onChange={(e) => setNewEntry({ ...newEntry, protocols: e.target.value })}
-          />
-          <Input
-            type="text"
-            placeholder="Country"
-            value={newEntry.country}
-            onChange={(e) => setNewEntry({ ...newEntry, country: e.target.value })}
-          />
-          <Input
-            type="text"
-            placeholder="Port"
-            value={newEntry.port}
-            onChange={(e) => setNewEntry({ ...newEntry, port: e.target.value })}
-          />
-          <Button onClick={handleCreate} className="flex items-center p-1">
-            <Plus className="h-4 w-4" />
-          </Button>
+        <p className="text-gray-400 text-center">Please connect your wallet to view your personal models.</p>
+      ) : isLoading ? (
+        <div className="flex justify-center items-center h-64">
+          <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
         </div>
-      </div>
+      ) : filteredEntries.length === 0 ? (
+        <p className="text-gray-400 text-center">No personal models found. Create some models first!</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filteredEntries.reverse().map((entry, index) => (
+            <Link href={`/models/${entry.title}`} key={`${entry.title}-${index}`}>
+              <Card className="bg-white dark:bg-gray-800 backdrop-blur-lg border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <CardContent className="p-4 flex items-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+                    {entry.title.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-grow min-w-0">
+                    <h2 className="text-lg font-semibold text-white truncate">{entry.title}</h2>
+                    <h2 className="text-sm text-gray-300 truncate">{entry.message}</h2>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
+
+export default PersonalModels;

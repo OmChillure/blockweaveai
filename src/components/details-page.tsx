@@ -9,8 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  DialogTrigger,} from "@/components/ui/dialog";
 import { MessageCircleIcon } from "lucide-react";
 import { useChat } from "ai/react";
 import {
@@ -22,7 +21,6 @@ import {
 } from "lucide-react";
 import { DatasetEntry } from "./models/dataset";
 import { useEffect, useState } from "react";
-// import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 const downloadFile = async (url: any, filename: any) => {
@@ -122,36 +120,46 @@ export default function Details({
               </p>
             </ScrollArea>
             <div className="grid sm:grid-cols-2 gap-4">
-              {type=="data" ? <Button
-                variant="outline"
-                className="w-full h-12 text-lg font-medium hover:bg-gray-800"
-                onClick={() => {
-                  if (dataset.ipfsHash) {
-                    const url = `https://${process.env.NEXT_PUBLIC_PINATA_GATEWAY_D}/ipfs/${dataset.ipfsHash}`;
-                    console.log("Download URL:", url);
-                    downloadFile(url, `${dataset.title}.csv`);
-                  } else {
-                    alert("No IPFS hash available.");
-                  }
-                }}
-              ><DownloadIcon className="mr-2 h-5 w-5" />
-              Download Model
-            </Button> : <Button
-              variant="outline"
-              className="w-full h-12 text-lg font-medium hover:bg-gray-800"
-              onClick={() => {
-                if (dataset.ipfsHash) {
-                  const url = `https://${process.env.NEXT_PUBLIC_PINATA_GATEWAY_M!}/ipfs/${dataset.ipfsHash}`;
-                  console.log("Download URL:", url);
-                  downloadFile(url, `${dataset.title}.py`);
-                } else {
-                  alert("No IPFS hash available.");
-                }
-              }}
-            > <DownloadIcon className="mr-2 h-5 w-5" />
-            Download Model
-          </Button>}
-                
+              {type == "data" ? (
+                <Button
+                  variant="outline"
+                  className="w-full h-12 text-lg font-medium hover:bg-gray-800"
+                  onClick={() => {
+                    if (dataset.ipfsHash) {
+                      const url = `https://${process.env.NEXT_PUBLIC_PINATA_GATEWAY_D}/ipfs/${dataset.ipfsHash}`;
+                      console.log("Download URL:", url);
+                      downloadFile(url, `${dataset.title}.csv`);
+                    } else {
+                      alert("No IPFS hash available.");
+                    }
+                  }}
+                >
+                  <DownloadIcon className="mr-2 h-5 w-5" />
+                  Download Dataset
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  className="w-full h-12 text-lg font-medium hover:bg-gray-800"
+                  onClick={() => {
+                    if (dataset.ipfsHash) {
+                      const url = `https://${process.env
+                        .NEXT_PUBLIC_PINATA_GATEWAY_M!}/ipfs/${
+                        dataset.ipfsHash
+                      }`;
+                      console.log("Download URL:", url);
+                      downloadFile(url, `${dataset.title}.py`);
+                    } else {
+                      alert("No IPFS hash available.");
+                    }
+                  }}
+                >
+                  {" "}
+                  <DownloadIcon className="mr-2 h-5 w-5" />
+                  Download Model
+                </Button>
+              )}
+
               <Dialog>
                 <DialogTrigger asChild>
                   <Button className="w-full h-12 text-lg font-medium bg-blue-600 hover:bg-blue-700">
