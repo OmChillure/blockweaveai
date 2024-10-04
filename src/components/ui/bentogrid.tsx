@@ -21,7 +21,7 @@ const LogoBeam = () => {
   return (
     <div className="flex items-center justify-center min-h-52">
       <div className="relative flex items-center">
-        <div className="bg-[#000] border border-white/30  rounded-2xl flex items-center justify-center w-14 h-14 p-4">
+        <div className="bg-[#000] border border-white/30 rounded-2xl flex items-center justify-center w-14 h-14 p-4">
           <img src={logos[0]} alt="Logo 1" className="filter invert brightness-0" />
         </div>
         <div className="relative" style={{ width: `${lineWidth}px`, height: `${lineHeight}px`, backgroundColor: '#FFFFFF', overflow: 'hidden' }}>
@@ -91,7 +91,7 @@ const CardWithEffect = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      className="relative bg-[#000] flex-1 rounded-xl border border-white/30 p-4 overflow-hidden"
+      className="relative bg-[#000] flex-1 rounded-xl border border-white/30 p-2 overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -108,7 +108,7 @@ const CardWithEffect = ({ children }: { children: React.ReactNode }) => {
             background: '#5D2CA8',
             filter: 'blur(100px)',
             transform: 'translate(-0%, -0%)',
-            zIndex: 10, // Ensure the effect is on top
+            zIndex: 10,
             willChange: 'transform, top, left',
           }}
         />
@@ -119,62 +119,30 @@ const CardWithEffect = ({ children }: { children: React.ReactNode }) => {
 };
 
 const AWSIcon = () => {
-  
-
   return (
-    <div className="flex flex-col justify-center h-full items-center relative">
-         <div className="flex flex-row gap-8 justify-center h-full items-center relative">
-         <div className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
-          <img src={logosOther[0]} alt="Logo 2" className="filter invert brightness-0" />
-          <motion.div
-            className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
-            initial={{ x: '-100%' }}
-            animate={{ x: '100%' }}
-            transition={{
-              duration: 2,
-              ease: 'linear',
-              repeat: Infinity,
-              repeatType: 'loop',
-            }}
-            style={{ willChange: 'transform' }}
-          />
-        </div>
-        <div className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
-          <img src={logosOther[1]} alt="Logo 2" className="filter invert brightness-0" />
-          <motion.div
-            className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
-            initial={{ x: '-100%' }}
-            animate={{ x: '100%' }}
-            transition={{
-              duration: 2,
-              ease: 'linear',
-              repeat: Infinity,
-              repeatType: 'loop',
-            }}
-            style={{ willChange: 'transform' }}
-          />
-        </div>
-        <div className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
-          <img src={logosOther[2]} alt="Logo 2" className="filter invert brightness-0" />
-          <motion.div
-            className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
-            initial={{ x: '-100%' }}
-            animate={{ x: '100%' }}
-            transition={{
-              duration: 2,
-              ease: 'linear',
-              repeat: Infinity,
-              repeatType: 'loop',
-            }}
-            style={{ willChange: 'transform' }}
-          />
-        </div>
-        </div>
-
-      
-      <div className="text-left p-6 mt-4">
-        <h1 className="text-white text-2xl font-bold mb-2">Multiple Technologies</h1>
-        <p className="text-gray-400 text-lg">Uplaod AI models, datasets and ips and earn a fortune.</p>
+    <div className="flex flex-col justify-center h-[80vh] items-center relative">
+      <div className="flex flex-row gap-4 sm:gap-8 justify-center h-[70%] items-center relative">
+        {logosOther.map((logo, index) => (
+          <div key={index} className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
+            <img src={logo} alt={`Logo ${index + 1}`} className="filter invert brightness-0" />
+            <motion.div
+              className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
+              initial={{ x: '-100%' }}
+              animate={{ x: '100%' }}
+              transition={{
+                duration: 2,
+                ease: 'linear',
+                repeat: Infinity,
+                repeatType: 'loop',
+              }}
+              style={{ willChange: 'transform' }}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="text-left p-4 sm:p-6 mt-4">
+        <h1 className="text-white text-xl sm:text-2xl font-bold mb-2">Multiple Technologies</h1>
+        <p className="text-gray-400 text-base sm:text-lg">Upload AI models, datasets and ips and earn a fortune.</p>
       </div>
     </div>
   );
@@ -211,19 +179,19 @@ const BentoBox1 = () => {
   }, [chartRef]);
 
   return (
-    <div className="bg-[#000000] flex justify-center items-center min-h-screen p-5 rounded-lg sm:py-24 ">
-      <div className="flex flex-col md:flex-row gap-4 w-full max-w-7xl min-h-[800px] md:min-h-[800px] md:h-[800px]">
+    <div className="bg-[#000000] flex justify-center items-center min-h-screen p-2 sm:p-5 rounded-lg sm:py-24">
+      <div className="flex flex-col lg:flex-row gap-4 w-full max-w-7xl min-h-[800px] lg:min-h-[800px] lg:h-[800px]">
         <CardWithEffect>
           <div className="flex flex-col justify-between h-full">
-            <div className="mb-4 px-6 mt-6">
+            <div className="mb-4 px-2 sm:px-6 mt-6">
               <div className="flex justify-between items-center mb-6 pb-2">
-                <h2 className="text-white/70 text-xl">Sales Data</h2>
+                <h2 className="text-white/70 text-lg sm:text-xl">Sales Data</h2>
                 <div className="flex items-center">
                   <div className="h-1 bg-black w-8 rounded-lg"></div>
-                  <span className="ml-2 text-white/70 text-sm">Growth</span>
+                  <span className="ml-2 text-white/70 text-xs sm:text-sm">Growth</span>
                 </div>
               </div>
-              <div ref={chartRef} className="relative w-full mt-12" style={{ height: chartHeight }}>
+              <div ref={chartRef} className="relative w-full mt-8 sm:mt-12" style={{ height: chartHeight }}>
                 <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-full pl-11">
                   <defs>
                     <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
@@ -271,19 +239,19 @@ const BentoBox1 = () => {
                 </div>
               </div>
             </div>
-            <div className="text-left p-6 mt-4">
-              <h1 className="text-white text-2xl font-bold mb-2">Incredible Growth</h1>
-              <p className="text-white/70 text-lg">Fly through your tasks with rapid-fire keyboard shortcuts for everything. Literally everything.</p>
+            <div className="text-left p-4 sm:p-6 mt-4">
+              <h1 className="text-white text-xl sm:text-2xl font-bold mb-2">Incredible Growth</h1>
+              <p className="text-white/70 text-base sm:text-lg">Fly through your tasks with rapid-fire keyboard shortcuts for everything. Literally everything.</p>
             </div>
           </div>
         </CardWithEffect>
-        <div className="flex flex-col w-full md:w-1/2 gap-5 h-full md:h-[800px]">
+        <div className="flex flex-col w-full lg:w-1/2 gap-4 sm:gap-5 h-full lg:h-[800px]">
           <CardWithEffect>
             <div className="flex flex-col justify-center h-full">
               <LogoBeam />
-              <div className="text-left p-6">
-                <h1 className="text-white text-2xl font-bold mb-2">Onchain & Ipfs Storage</h1>
-                <p className="text-white/70 text-lg">All the data is stored on Ipfs and hash pushed on Solana, just making it super secure.</p>
+              <div className="text-left p-4 sm:p-6">
+                <h1 className="text-white text-xl sm:text-2xl font-bold mb-2">Onchain & Ipfs Storage</h1>
+                <p className="text-white/70 text-base sm:text-lg">All the data is stored on Ipfs and hash pushed on Solana, just making it super secure.</p>
               </div>
             </div>
           </CardWithEffect>
@@ -296,14 +264,12 @@ const BentoBox1 = () => {
   );
 };
 
-
 function Bentodemo() {
   return (
-    <div className="h-screen flex items-center justify-center  ">
+    <div className="min-h-screen flex items-center justify-center">
       <BentoBox1 />
     </div>
   );
 }
 
 export default Bentodemo;
-          

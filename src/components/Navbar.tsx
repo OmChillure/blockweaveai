@@ -6,60 +6,80 @@ import MenuIcon from '../assets/icons/menu.svg';
 import { IsWalletConnected as checkWalletConnection, WalletButton } from "./solana/solana-provider";
 import { Button } from "./ui/button";
 import Link from "next/link";
-
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 export const Navbar = () => {
   const walletConnected = checkWalletConnection();
 
-  const [active, setActive] = useState<string | null>(null);
+  // State to manage mobile menu visibility
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Toggle menu visibility on click
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <div className="bg-black">
       <div className="px-4">
-    <div className="container bg-black">
-      <div className="py-4 flex items-center justify-between">
+        <div className="container bg-black">
+          <div className="py-4 flex items-center justify-between">
+            {/* Logo Section */}
+            <div className="relative">
+              <Image src={LogoImage} alt="Logo" className="h-12 w-12 relative mt-1 ml-2" />
+            </div>
 
-      <div className="relative">
-        {/* <div className='absolute w-full top-2 bg-[linear-gradient(to_right,#F7AABE,#B57CEC,#E472D1)] blur-md '> */}
-      <Image src={LogoImage} alt="Logo" className="h-16 w-16 relative mt-1 ml-5"/>
-      {/* <LogoImage className="h-12 w-12 relative mt-1"/> */}
-      </div>
-      <div className='border border-white border-opacity-30 h-10 w-10 inline-flex justify-center items-center rounded-lg sm:hidden'>
+            {/* Hamburger Menu for Mobile */}
+            <div className='border border-white border-opacity-30 h-10 w-10 inline-flex justify-center items-center rounded-lg sm:hidden' onClick={toggleMenu}>
+              {menuOpen ? (
+                <Cross2Icon className="h-6 w-6 text-white" /> // Close icon when the menu is open
+              ) : (
+                <MenuIcon className="text-white" />  // Hamburger icon when the menu is closed
+              )}
+            </div>
 
-      <MenuIcon className="text-white" />
-      </div>
-      <nav className='text-white gap-6 items-center hidden sm:flex'>
-        
-        <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition' >About</a>
-        <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Features</a>
-        <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</a>
-        {walletConnected && (
-          <div className="flex justify-center items-center">
-          <Button color="primary">
-            <Link href="/models">
-              Models
-            </Link>
-          </Button>
-      </div>
-        )}
-        <div className="flex justify-center items-center">
-          <WalletButton
-            style={{
-              backgroundColor: "#9823C2",
-              padding: "0px 10px",
-              borderRadius: "8px",
-            }}
-          />
+            {/* Desktop Navigation Links */}
+            <nav className='text-white gap-6 items-center hidden sm:flex'>
+              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>About</a>
+              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Features</a>
+              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</a>
+              {walletConnected && (
+                <Button color="primary">
+                  <Link href="/models">Models</Link>
+                </Button>
+              )}
+              <WalletButton
+                style={{
+                  backgroundColor: "#9823C2",
+                  padding: "0px 10px",
+                  borderRadius: "8px",
+                }}
+              />
+            </nav>
+          </div>
+
+          {/* Mobile Menu (visible only on mobile) */}
+          <div className={`sm:hidden ${menuOpen ? 'block' : 'hidden'} transition-all duration-300`}>
+            <nav className="flex flex-col items-center gap-4 py-4 text-white">
+              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>About</a>
+              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Features</a>
+              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</a>
+              {walletConnected && (
+                <Button color="primary">
+                  <Link href="/models">Models</Link>
+                </Button>
+              )}
+              <WalletButton
+                style={{
+                  backgroundColor: "#9823C2",
+                  padding: "0px 10px",
+                  borderRadius: "8px",
+                }}
+              />
+            </nav>
+          </div>
         </div>
-      </nav>
-
       </div>
-
-
-
-
     </div>
-    </div>
-    </div>
-  )
+  );
 };
