@@ -9,7 +9,7 @@ const logos = [
 ];
 
 const logosOther = [
-  "https://utfs.io/f/Ejk0YhBR15NVTTsceWw5ty2UQ0LsbRv1kZzHKXW9Noc4iqSh",
+  "https://utfs.io/f/Ejk0YhBR15NVhLF4miQonmsl3Yq4vBWRea6257SIwQGZrFip",
   "https://utfs.io/f/Ejk0YhBR15NVSkxOfe6hAfm5FzOrbdHgTjxEi3YyKIC7k469",
   "https://utfs.io/f/Ejk0YhBR15NV6b54gUGCkiP3NmguMTUy5LEqoh81IbQ9HrX2"
 ];
@@ -190,7 +190,7 @@ const BentoBox1 = () => {
                   <div className="h-1 bg-black w-8 rounded-lg"></div>
                   <span className="ml-2 text-white/70 text-xs sm:text-sm">Growth</span>
                 </div>
-              </div>
+              </div> 
               <div ref={chartRef} className="relative w-full mt-8 sm:mt-12" style={{ height: chartHeight }}>
                 <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-full pl-11">
                   <defs>

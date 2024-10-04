@@ -90,7 +90,7 @@ export const Footer = () => {
               <div className="grid grid-cols-2 gap-6 pb-16 sm:grid-cols-3 md:pl-16">
                 <div>
                   <h6 className="text-lg font-medium text-gray-800 dark:text-gray-200">
-                    Company
+                    Docs
                   </h6>
                   <ul className="mt-4 list-inside space-y-4">
                     <li>
@@ -154,32 +154,17 @@ export const Footer = () => {
                 </div>
                 <div>
                   <h6 className="text-lg font-medium text-gray-800 dark:text-gray-200">
-                    Ressources
+                    Developers
                   </h6>
                   <ul className="mt-4 list-inside space-y-4">
                     <li>
                       <a href="#" className="transition hover:text-cyan-600">
-                        About
+                        Om Chillure
                       </a>
                     </li>
                     <li>
                       <a href="#" className="transition hover:text-cyan-600">
-                        Customers
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Enterprise
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Partners
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="transition hover:text-cyan-600">
-                        Jobs
+                        Jay Gupta
                       </a>
                     </li>
                   </ul>

@@ -34,7 +34,7 @@ export const Hero = () => {
               />
             </motion.div>
             <motion.div
-              className="absolute left-[850px] top-[40px] hidden sm:inline"
+              className="absolute left-[900px] top-[40px] hidden sm:inline"
               drag
               dragSnapToOrigin
             >
