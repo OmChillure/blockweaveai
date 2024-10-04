@@ -77,23 +77,23 @@ function PersonalModels() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 w-[82.4vw] bg-gradient-to-br from-black via-gray-900 to-purple-900">
+    <div className="container mx-auto px-4 py-6 w-[82.4vw] bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white min-h-screen">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white">Personal Models</h1>
-        <div className="flex gap-4">
+        <h1 className="text-3xl font-bold">Personal Models</h1>
+        <div className="flex items-center gap-4">
           <Input
             type="text"
             placeholder="Search models..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-xs"
+            className="max-w-xs bg-gray-800 text-white border-gray-700"
           />
           <Link href="/privatemodel/new">
-            <Button className="bg-blue-500 hover:bg-blue-600">
-              Create Model
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white text-md">
+              Create
             </Button>
           </Link>
-        </div>
+      </div>
       </div>
       
       {!connected ? (
@@ -107,8 +107,8 @@ function PersonalModels() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredEntries.reverse().map((entry, index) => (
-            <Link href={`/privatemodel/${entry.title}`} key={`${entry.title}-${index}`}>
-              <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <Link href={`/models/${entry.title}`} key={`${entry.title}-${index}`}>
+              <Card className="bg-white dark:bg-gray-800 backdrop-blur-lg border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-4 flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
                     {entry.title.charAt(0).toUpperCase()}

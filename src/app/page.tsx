@@ -11,7 +11,7 @@ import { TimelineView } from "@/components/future";
 export default function Home() {
   return (
     <>
-    <div className="overflow-x-hidden">
+    <div className="overflow-y-hidden md:overflow-x-hidden">
       <Navbar />
       <Hero />
       <LogoTicker />

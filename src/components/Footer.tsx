@@ -22,7 +22,7 @@ export const Footer = () => {
       <div className="bg-black pt-1">
         <div className="container m-auto space-y-8 px-6 text-gray-600 dark:text-gray-400 md:px-12 lg:px-20">
           <div className="grid grid-cols-8 gap-6 md:gap-0">
-            <div className="col-span-8 border-r border-gray-100 dark:border-gray-800 md:col-span-2 lg:col-span-3">
+          <div className="col-span-8 pb-6 md:border-b-0 md:border-r md:pb-0 md:col-span-2 lg:col-span-3">
               <div className="flex items-center justify-between gap-6 border-b border-white dark:border-gray-800 py-6 md:block md:space-y-6 md:border-none md:py-0">
                 <img
                   src="./logos.png"

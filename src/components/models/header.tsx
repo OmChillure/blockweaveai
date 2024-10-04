@@ -6,6 +6,7 @@ import Image from "next/image";
 import {Navbar, NavbarBrand, NavbarContent,NavbarMenu,NavbarMenuItem, NavbarItem, NavbarMenuToggle} from "@nextui-org/navbar";
 import {Avatar} from "@nextui-org/avatar";
 import { WalletButton } from "../solana/solana-provider";
+import { PlusSquareIcon } from "lucide-react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -78,15 +79,7 @@ export default function Header() {
       <WalletButton />
         <Dropdown placement="bottom-end" className="bg-white rounded-md ">
           <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
-              size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
+            <PlusSquareIcon size={36} className="cursor-pointer" />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
           <DropdownItem key="Profile" variant="flat" className="hover:bg-slate-800">
