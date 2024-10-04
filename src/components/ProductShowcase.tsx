@@ -1,5 +1,5 @@
 "use client"
-import appScreen from "../assets/images/product.avif";
+import appScreen from "../assets/images/dashboard.png";
 import Image from 'next/image';
 import {motion , useScroll, useTransform} from 'framer-motion';
 import { useEffect, useRef } from "react";
@@ -30,7 +30,7 @@ const opacity = useTransform(scrollYProgress, [0, 1], [.3,1]);
 
         }}
         >
-        <Image src={appScreen}  ref={appImage} alt="app screen" className="mt-14" />
+        <Image src={appScreen}  ref={appImage} alt="app screen" className="mt-14 rounded-lg" />
         </motion.div>
         </div>
 

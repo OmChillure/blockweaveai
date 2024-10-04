@@ -120,8 +120,8 @@ const CardWithEffect = ({ children }: { children: React.ReactNode }) => {
 
 const AWSIcon = () => {
   return (
-    <div className="flex flex-col justify-center h-[80vh] items-center relative">
-      <div className="flex flex-row gap-4 sm:gap-8 justify-center h-[70%] items-center relative">
+    <div className="flex flex-col justify-between h-full">
+      <div className="flex flex-row gap-4 sm:gap-8 justify-center items-center flex-grow">
         {logosOther.map((logo, index) => (
           <div key={index} className="relative bg-black border-2 border-white/70 rounded-2xl flex items-center justify-center w-16 h-16 p-4 overflow-hidden shadow-[0_0_15px_5px_#dbe0e2]">
             <img src={logo} alt={`Logo ${index + 1}`} className="filter invert brightness-0" />
