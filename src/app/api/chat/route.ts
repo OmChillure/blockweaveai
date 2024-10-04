@@ -6,7 +6,7 @@ import { Pinecone as PineconeClient } from "@pinecone-database/pinecone";
 
 // const embeddings = new HuggingFaceInferenceEmbeddings({
 //   model:"sentence-transformers/all-mpnet-base-v2",
-// });
+// }); dsv
 const pinecone = new PineconeClient({apiKey:`${process.env.PINECONE_API_KEY}`});
 const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX!);
 
