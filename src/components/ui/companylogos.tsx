@@ -1,15 +1,15 @@
 import Image from 'next/image'
-import acmeLogo from "../../assets/images/acme.png";
+import solanaLogo from "../../assets/images/solana.png";
 import quantumLogo from "../../assets/images/quantum.png";
 import echoLogo from "../../assets/images/echo.png";
-import celestialLogo from "../../assets/images/celestial.png";
+import celestialLogo from "../../assets/images/ipfs.jpg";
 import pulseLogo from "../../assets/images/pulse.png";
 import apexLogo from "../../assets/images/apex.png";
 
 export default function LogoCarousel() {
 
   const logos = [
-  { src: acmeLogo, alt: "Acme Logo" },
+  { src: solanaLogo, alt: "Acme Logo" },
   { src: quantumLogo, alt: "Quantum Logo" },
   { src: echoLogo, alt: "Echo Logo" },
   { src: celestialLogo, alt: "Celestial Logo" },

@@ -76,23 +76,23 @@ function PersonalDatasets() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 w-[82.4vw] bg-gradient-to-br from-black via-gray-900 to-purple-900">
+    <div className="container mx-auto px-4 py-6 w-screen md:w-[82.4vw] bg-gradient-to-br from-black via-gray-900 to-purple-900">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">Personal Datasets</h1>
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           <Input
             type="text"
-            placeholder="Search datasets..."
+            placeholder="Search models..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-xs"
+            className="max-w-xs bg-gray-800 text-white border-gray-700"
           />
           <Link href="/privatedataset/new">
-            <Button className="bg-blue-500 hover:bg-blue-600">
-              Create Dataset
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white text-md">
+              Create
             </Button>
           </Link>
-        </div>
+      </div>
       </div>
       
       {!connected ? (

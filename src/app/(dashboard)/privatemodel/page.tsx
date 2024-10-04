@@ -77,7 +77,7 @@ function PersonalModels() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 w-[82.4vw] bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white min-h-screen">
+    <div className="container mx-auto px-4 py-6 w-screen md:w-[82.4vw] bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white min-h-screen">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Personal Models</h1>
         <div className="flex items-center gap-4">

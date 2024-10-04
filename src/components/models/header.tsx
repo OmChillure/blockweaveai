@@ -25,7 +25,7 @@ export default function Header() {
   ];
 
   return (
-    <Navbar className="h-[10vh] bg-gradient-to-br from-black to-gray-900 text-white" maxWidth="full" shouldHideOnScroll isBlurred disableAnimation>
+    <Navbar className="h-[10vh] bg-gradient-to-br from-black to-gray-900 text-white" maxWidth="full" isBlurred disableAnimation>
       <NavbarContent justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}

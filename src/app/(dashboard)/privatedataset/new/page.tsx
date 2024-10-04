@@ -94,33 +94,33 @@ function CreateDatasetEntry() {
   };
 
   return (
-    <div className="w-[82.4vw] mx-auto p-5 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900">
-      <h2 className="text-center text-2xl font-bold mb-6 text-white">Create Dataset Entry</h2>
-      <div className="mb-4">
+    <div className="w-screen md:w-[82.4vw] mx-auto p-8 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900 shadow-xl">
+      <h2 className="text-center text-3xl font-extrabold mb-6 text-white">Upload Your Dataset</h2>
+      <div className="w-full mb-6">
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           maxLength={20}
-          className="w-full p-3 text-lg border border-gray-300 rounded-lg bg-white text-black"
+          className="w-full p-4 text-lg border border-gray-600 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-purple-500"
         />
       </div>
-      <div className="mb-4">
+      <div className="w-full mb-6">
         <textarea
-          placeholder="Message"
+          placeholder="Add model hashtags"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           maxLength={20}
-          className="w-full p-3 text-lg border border-gray-300 rounded-lg bg-white text-black min-h-[100px]"
+          className="w-full p-4 text-lg border border-gray-600 rounded-lg bg-gray-800 text-white min-h-[120px] focus:ring-2 focus:ring-purple-500"
         />
       </div>
       <FileUpload onChange={handleFileUpload} />
       <button
         onClick={createEntry}
         disabled={!wallet || files.length === 0}
-        className={`w-[50%] p-3 text-lg font-semibold text-white rounded-lg 
-        ${wallet && files.length > 0 ? 'bg-green-500 hover:bg-green-600' : 'bg-green-500 opacity-50 cursor-not-allowed'}`}
+        className={`w-full p-4 text-lg font-semibold text-white rounded-lg mt-6 
+        ${wallet && files.length > 0 ? 'bg-purple-600 hover:bg-purple-700' : 'bg-purple-600 opacity-50 cursor-not-allowed'}`}
       >
         Create Entry
       </button>

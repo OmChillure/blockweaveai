@@ -29,7 +29,7 @@ export const Footer = () => {
                   alt="logo tailus"
                   width="70"
                   height="42"
-                  className="w-32 dark:brightness-200"
+                  className="w-32"
                 />
                 <div className="flex gap-6">
                   <a
