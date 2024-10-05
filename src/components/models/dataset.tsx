@@ -4,14 +4,11 @@ import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapte
 import { PublicKey } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
 import idl from '@/lib/idl_d.json';
-import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Download, Eye } from 'lucide-react';
+import Link from 'next/link';
 
 const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
-
 export interface DatasetEntry {
   title: string;
   message: string;
@@ -19,37 +16,18 @@ export interface DatasetEntry {
   ipfsHash: string;
 }
 
-export default function PersonalDatasets() {
+function Datasets() {
   const [entries, setEntries] = useState<DatasetEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
-  const { connected } = useWallet();
+  const { connected, publicKey } = useWallet();
 
   useEffect(() => {
     if (connected && anchorWallet) {
       fetchAllDatasets();
     }
-  }, [connected, anchorWallet]);
-
-  const downloadFile = async (url: string, filename: string) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error('Download failed:', error);
-    }
-  };
+  }, [connected, anchorWallet, publicKey]);
 
   const fetchAllDatasets = async () => {
     if (!anchorWallet) return;
@@ -69,7 +47,7 @@ export default function PersonalDatasets() {
 
       setEntries(formattedEntries);
     } catch (error) {
-      console.error('Error fetching personal datasets:', error);
+      console.error('Error fetching datasets:', error);
     }
   };
 
@@ -79,7 +57,7 @@ export default function PersonalDatasets() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-3 w-[95%] from-black via-gray-900 to-purple-900">
+    <div className="container mx-auto px-4 py-6 w-[95%] from-black via-gray-900 to-purple-900">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">Datasets</h1>
         <Input
@@ -92,14 +70,14 @@ export default function PersonalDatasets() {
       </div>
       
       {!connected ? (
-        <p className="text-gray-400 text-center">Please connect your wallet to view your personal datasets.</p>
+        <p className="text-gray-400 text-center">Please connect your wallet to view datasets.</p>
       ) : filteredEntries.length === 0 ? (
         <p className="text-gray-400 text-center">No datasets found. Create some datasets first!</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredEntries.reverse().map((entry, index) => (
-          <Link key={entry.ipfsHash} href={`/dataset/${entry.title}`}>
-            <Card key={index} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <Link key={entry.ipfsHash} href={`/dataset/${encodeURIComponent(entry.title.toLowerCase().replace(/\s+/g, '_'))}`}>
+            <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <CardContent className="p-4 flex items-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-red-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
                   {entry.title.charAt(0).toUpperCase()}
@@ -107,33 +85,15 @@ export default function PersonalDatasets() {
                 <div className="flex-grow min-w-0">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">{entry.title}</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{entry.message}</p>
-                  {/* <div className="mt-2 flex space-x-2">
-                    <Link href={`/dataset/${entry.title}`}>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <Eye className="w-3 h-3 mr-1" />
-                        View
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-xs"
-                      onClick={() => downloadFile(
-                        `https://gateway.pinata.cloud/ipfs/${entry.ipfsHash}`,
-                        `${entry.title}.pdf`
-                      )}
-                    >
-                      <Download className="w-3 h-3 mr-1" />
-                      Download
-                    </Button>
-                  </div> */}
                 </div>
               </CardContent>
             </Card>
-          </ Link>
+          </Link>
           ))}
         </div>
       )}
     </div>
   );
 }
+
+export default Datasets;
