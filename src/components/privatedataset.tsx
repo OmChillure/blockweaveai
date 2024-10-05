@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, Connection } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
-import idl from '@/lib/idl.json';
+import idl from '@/lib/idl_d.json';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,9 +12,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 
-const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
+const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
 
-export interface ModelEntry {
+export interface DatasetEntry {
   title: string;
   message: string;
   owner: string;
@@ -26,29 +26,27 @@ interface TagCategories {
 }
 
 const tagCategories: TagCategories = {
-  "Task Type": [
+  "Data Type": [
+    "Text",
+    "Image",
+    "Audio",
+    "Video",
+    "Time Series",
+    "Tabular",
+  ],
+  "Domain": [
     "Natural Language Processing",
     "Computer Vision",
-    "Audio Processing",
-    "Multimodal",
-    "Reinforcement Learning",
-    "Tabular Data",
+    "Speech Recognition",
+    "Bioinformatics",
+    "Finance",
+    "Healthcare",
   ],
-  "Input/Output": [
-    "Text-to-Text",
-    "Text-to-Image",
-    "Image-to-Text",
-    "Text-to-Speech",
-    "Speech-to-Text",
-    "Text-to-Video",
-  ],
-  "Model Architecture": [
-    "Transformer",
-    "CNN",
-    "RNN",
-    "GAN",
-    "LSTM",
-    "Attention Mechanism",
+  "Size": [
+    "Small (< 1GB)",
+    "Medium (1-10GB)",
+    "Large (10-100GB)",
+    "Very Large (> 100GB)",
   ],
   "Language": [
     "English",
@@ -60,8 +58,8 @@ const tagCategories: TagCategories = {
   ],
   "License": [
     "Open Source",
-    "Commercial",
     "Research Only",
+    "Commercial Use",
     "Creative Commons",
   ],
 }
@@ -100,7 +98,7 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
 
   return (
     <aside className="bg-gray-800 text-white p-4 rounded-lg shadow-lg flex flex-col h-full">
-      <h2 className="text-xl font-bold mb-4">Filter Models</h2>
+      <h2 className="text-xl font-bold mb-4">Filter Datasets</h2>
       <Input
         type="search"
         placeholder="Search tags..."
@@ -153,41 +151,56 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
   )
 }
 
-function Models() {
-  const [entries, setEntries] = useState<ModelEntry[]>([]);
+function Datasets() {
+  const [entries, setEntries] = useState<DatasetEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isLoading,setIsLoading] = useState(false)
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
   const { connected, publicKey } = useWallet();
 
   useEffect(() => {
     if (connected && anchorWallet) {
-      fetchAllModels();
+      fetchPersonalDatasets();
+    } else {
+      setEntries([]);
+      setIsLoading(false);
     }
-  }, [connected, anchorWallet, publicKey]);
-
-  const fetchAllModels = async () => {
+  }, [connected, anchorWallet]);
+  
+  const fetchPersonalDatasets = async () => {
     if (!anchorWallet) return;
-
-    const provider = new AnchorProvider(connection as Connection, anchorWallet, {});
+    setIsLoading(true);
+  
+    const provider = new AnchorProvider(connection, anchorWallet, {});
     const program = new Program(idl as Idl, programId, provider);
-
+  
     try {
-      const allEntries = await program.account.modelEntryState.all();
-
-      const formattedEntries: ModelEntry[] = allEntries.map(entry => ({
+      const allEntries = await program.account.datasetEntryState.all([
+        {
+          memcmp: {
+            offset: 8,
+            bytes: anchorWallet.publicKey.toBase58(),
+          },
+        },
+      ]);
+  
+      const formattedEntries = allEntries.map(entry => ({
         title: entry.account.title,
         message: entry.account.message,
         owner: entry.account.owner.toString(),
         ipfsHash: entry.account.ipfsHash,
       }));
-
+      
       setEntries(formattedEntries);
     } catch (error) {
-      console.error('Error fetching models:', error);
+      console.error('Error fetching personal datasets:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
+  
 
   const filteredEntries = entries.filter(entry =>
     (entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -198,20 +211,20 @@ function Models() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 min-h-screen ">
+    <div className="container mx-auto px-4 py-6 min-h-screen">
       <div className="mb-4 flex justify-between">
-        <h1 className="text-3xl font-bold text-white mb-4">Models</h1>
+        <h1 className="text-3xl font-bold text-white mb-4">Datasets</h1>
         <Input
           type="text"
-          placeholder="Search models..."
+          placeholder="Search datasets..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-md text-white/80"
+          className="w-full max-w-md"
         />
       </div>
       
       {!connected ? (
-        <p className="text-gray-400 text-center">Please connect your wallet to view models.</p>
+        <p className="text-gray-400 text-center">Please connect your wallet to view datasets.</p>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className="lg:col-span-1">
@@ -219,11 +232,11 @@ function Models() {
           </div>
           <div className="lg:col-span-3">
             {filteredEntries.length === 0 ? (
-              <p className="text-gray-400 text-center">No models found. Create some models first!</p>
+              <p className="text-gray-400 text-center">No datasets found. Create some datasets first!</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                 {filteredEntries.reverse().map((entry) => (
-                <Link key={entry.ipfsHash} href={`/models/${encodeURIComponent(entry.title.toLowerCase().replace(/\s+/g, '_'))}`}>
+                <Link key={entry.ipfsHash} href={`/dataset/${encodeURIComponent(entry.title.toLowerCase().replace(/\s+/g, '_'))}`}>
                   <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <CardContent className="p-4 flex items-center">
                       <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-red-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
@@ -246,4 +259,29 @@ function Models() {
   );
 }
 
-export default Models;
+export default Datasets;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

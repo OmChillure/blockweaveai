@@ -153,41 +153,57 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
   )
 }
 
-function Models() {
+function PrivateModels() {
   const [entries, setEntries] = useState<ModelEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
   const { connected, publicKey } = useWallet();
 
   useEffect(() => {
     if (connected && anchorWallet) {
-      fetchAllModels();
+      fetchPersonalModels();
+    } else {
+      setEntries([]);
+      setIsLoading(false);
     }
-  }, [connected, anchorWallet, publicKey]);
+  }, [connected, anchorWallet]);
 
-  const fetchAllModels = async () => {
+  const fetchPersonalModels = async () => {
     if (!anchorWallet) return;
+    setIsLoading(true);
 
-    const provider = new AnchorProvider(connection as Connection, anchorWallet, {});
+    const provider = new AnchorProvider(connection, anchorWallet, {});
     const program = new Program(idl as Idl, programId, provider);
 
     try {
-      const allEntries = await program.account.modelEntryState.all();
+      const allEntries = await program.account.modelEntryState.all([
+        {
+          memcmp: {
+            offset: 8,
+            bytes: anchorWallet.publicKey.toBase58(),
+          },
+        },
+      ]);
 
-      const formattedEntries: ModelEntry[] = allEntries.map(entry => ({
+      const formattedEntries = allEntries.map(entry => ({
         title: entry.account.title,
         message: entry.account.message,
         owner: entry.account.owner.toString(),
+        hash: entry.account.hash,
         ipfsHash: entry.account.ipfsHash,
       }));
-
+      
       setEntries(formattedEntries);
     } catch (error) {
-      console.error('Error fetching models:', error);
+      console.error('Error fetching personal models:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
 
   const filteredEntries = entries.filter(entry =>
     (entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -246,4 +262,4 @@ function Models() {
   );
 }
 
-export default Models;
+export default PrivateModels;
