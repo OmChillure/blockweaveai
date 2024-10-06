@@ -181,7 +181,7 @@ export default function ProxyEntries() {
   );
 
   return (
-    <div className="w-full bg-gradient-to-br from-black via-gray-900 to-purple-900">
+    <div className="w-full min-h-[100svh] bg-gradient-to-br from-black via-gray-900 to-purple-900">
       <Header />
       <div className="flex justify-between items-center my-8 px-4">
         <h1 className="text-3xl font-bold text-white">Proxy Entries</h1>
@@ -218,7 +218,7 @@ export default function ProxyEntries() {
                 <TableCell>
                   <div className="flex items-center space-x-2">
                     <span>{editingEntry?.id === entry.id ? 
-                      <Input value={editingEntry.ip} onChange={(e) => setEditingEntry({...editingEntry, ip: e.target.value})} /> : 
+                      <Input value={"*******"} onChange={(e) => setEditingEntry({...editingEntry, ip: e.target.value})} /> : 
                       entry.ip}
                     </span>
                     <Button
@@ -295,7 +295,7 @@ export default function ProxyEntries() {
         </Table>
       )}
 
-      <div className="mt-8 px-4 ">
+      <div className="mt-8 px-4 text-white/80">
         <h2 className="text-2xl font-bold text-white mb-4">Add New Proxy</h2>
         <div className="flex space-x-2">
           <Input
@@ -323,8 +323,8 @@ export default function ProxyEntries() {
             value={newEntry.port}
             onChange={(e) => setNewEntry({...newEntry, port: e.target.value})}
           />
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 h-4 w-4" /> Add Proxy
+          <Button onClick={handleCreate} className='text-white/80'>
+            <Plus className="mr-2 h-4 w-4 " /> Add Proxy
           </Button>
         </div>
       </div>
