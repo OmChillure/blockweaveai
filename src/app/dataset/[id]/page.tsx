@@ -6,7 +6,18 @@ import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl, BN } from '@project-serum/anchor';
 import idl from '@/lib/idl_ud.json';
 import { Button } from '@/components/ui/button';
-import { DownloadIcon, MessageCircleIcon } from 'lucide-react';
+import { DownloadIcon, MessageCircleIcon, SendIcon, StopCircleIcon, TrashIcon } from 'lucide-react';
+import { useChat } from 'ai/react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from '@radix-ui/react-scroll-area';
 
 const programId = new PublicKey('BCH6tbQXrQtpPmtzwHcitQrpYTbqDeSDNCDVhz26xuxZ');
 
@@ -27,6 +38,34 @@ export default function ModelDetail() {
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
   const { connected } = useWallet();
+  const {
+    messages,
+    input,
+    handleInputChange,
+    setMessages,
+    handleSubmit,
+    isLoading,
+    error,
+    reload,
+    stop,
+  } = useChat({
+    keepLastMessageOnError: true,
+    onFinish: (message, { usage, finishReason }) => {
+      console.log("Finished streaming message:", message);
+      console.log("Token usage:", usage);
+      console.log("Finish reason:", finishReason);
+    },
+    onError: (error) => {
+      alert("An error occurred:" + error.message + "\n" + error.cause);
+    },
+    onResponse: (response) => {
+      console.log("Received HTTP response from server:", response);
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    setMessages(messages.filter((msg) => msg.id !== id));
+  };
 
   useEffect(() => {
     if (connected && anchorWallet && id) {
@@ -167,19 +206,103 @@ export default function ModelDetail() {
           <p><span className="font-semibold">IPFS Hash:</span> {dataset.ipfsHash}</p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="grid grid-cols-2 gap-x-2">
           <Button 
             onClick={purchaseAndDownload} 
             disabled={purchasing}
-            className="flex-1 bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
+            className="h-full bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
           >
             <DownloadIcon className="mr-2 h-4 w-4" />
             {purchasing ? 'Processing...' : 'Purchase & Download dataset'}
           </Button>
-          <Button className="flex-1 bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200">
-            <MessageCircleIcon className="mr-2 h-4 w-4" />
-            Chat with AI
-          </Button>
+          <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="w-full h-12 text-lg font-medium bg-blue-600 hover:bg-blue-700">
+                    <MessageCircleIcon className="mr-2 h-5 w-5" />
+                    Chat with AI
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] md:w-[80%] bg-gray-900 text-gray-100">
+                  <DialogHeader>
+                    <DialogTitle className="text-xl">AI Assistant</DialogTitle>
+                    <DialogDescription className="text-gray-400">
+                      Ask anything about{" "}
+                      {dataset.title.length <= 10
+                        ? dataset.title
+                        : dataset.title.slice(0, 10) + "..."}
+                      .
+                    </DialogDescription>
+                  </DialogHeader>
+                  <ScrollArea className="h-[50vh] md:h-[60vh] pr-4">
+                    <div className="space-y-4">
+                      {messages.map((message) => (
+                        <div
+                          key={message.id}
+                          className={`flex flex-col ${
+                            message.role === "user"
+                              ? "items-end"
+                              : "items-start"
+                          }`}
+                        >
+                          <div
+                            className={`p-3 rounded-lg max-w-[80%] ${
+                              message.role === "user"
+                                ? "bg-blue-600"
+                                : "bg-gray-800"
+                            }`}
+                          >
+                            {message.content}
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(message.id)}
+                          >
+                            <TrashIcon size={14} />
+                          </Button>
+                        </div>
+                      ))}
+                      {error && (
+                        <div className="bg-red-900/50 p-3 rounded-lg">
+                          Error: {error.message}
+                        </div>
+                      )}
+                      {isLoading && (
+                        <div className="flex items-center bg-gray-800 p-3 rounded-lg">
+                          <span className="mr-2">Loading...</span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => stop()}
+                          >
+                            <StopCircleIcon size={14} />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </ScrollArea>
+                  <DialogFooter>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit(e, { body: { id:dataset.ipfsHash } });
+                      }}
+                      className="flex w-full space-x-2"
+                    >
+                      <input
+                        className="flex-1 rounded-md p-3 bg-gray-800 outline-none border border-gray-700 focus:border-blue-500"
+                        value={input}
+                        onChange={handleInputChange}
+                        placeholder="Type your message..."
+                        disabled={isLoading}
+                      />
+                      <Button type="submit" disabled={isLoading}>
+                        <SendIcon />
+                      </Button>
+                    </form>
+                  </DialogFooter>
+                </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>

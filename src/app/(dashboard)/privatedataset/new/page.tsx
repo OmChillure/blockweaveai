@@ -44,7 +44,6 @@ function CreateDatasetEntry() {
       formData.append("userId", wallet.publicKey.toString());
       formData.append("type", "data");
       const { hash } = await upload(formData);
-      getFile(hash,"data")
       alert(hash)
       setIpfsHash(hash);
 
@@ -94,7 +93,7 @@ function CreateDatasetEntry() {
   };
 
   return (
-    <div className="w-screen mx-auto p-8 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900 shadow-xl">
+    <div className="w-screen md:w-[98.9vw] mx-auto p-8 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900 shadow-xl">
       <h2 className="text-center text-3xl font-extrabold mb-6 text-white">Upload Your Dataset</h2>
       <div className="w-full mb-6">
         <input
