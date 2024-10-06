@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
-import idl from '@/lib/idl_d.json';
+import idl from '@/lib/idl_ud.json';
 import { getFile, upload } from '@/actions';
 import { FileUpload } from '@/components/file-uploader';
 
-const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
+const programId = new PublicKey('BCH6tbQXrQtpPmtzwHcitQrpYTbqDeSDNCDVhz26xuxZ');
 
 function CreateDatasetEntry() {
   const [title, setTitle] = useState('');
@@ -94,7 +94,7 @@ function CreateDatasetEntry() {
   };
 
   return (
-    <div className="w-screen md:w-[82.4vw] mx-auto p-8 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900 shadow-xl">
+    <div className="w-screen mx-auto p-8 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900 shadow-xl">
       <h2 className="text-center text-3xl font-extrabold mb-6 text-white">Upload Your Dataset</h2>
       <div className="w-full mb-6">
         <input
@@ -111,7 +111,6 @@ function CreateDatasetEntry() {
           placeholder="Add model hashtags"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          maxLength={20}
           className="w-full p-4 text-lg border border-gray-600 rounded-lg bg-gray-800 text-white min-h-[120px] focus:ring-2 focus:ring-purple-500"
         />
       </div>

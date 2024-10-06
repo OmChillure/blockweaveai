@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import solanaLogo from "../../assets/images/solana.png";
 import quantumLogo from "../../assets/images/quantum.png";
-import echoLogo from "../../assets/images/echo.png";
-import celestialLogo from "../../assets/images/ipfs.jpg";
+import radarLogo from "../../assets/images/radar.png";
+import ipfsLogo from "../../assets/images/ipfs.jpg";
 import pulseLogo from "../../assets/images/pulse.png";
 import apexLogo from "../../assets/images/apex.png";
 
@@ -11,8 +11,8 @@ export default function LogoCarousel() {
   const logos = [
   { src: solanaLogo, alt: "Acme Logo" },
   { src: quantumLogo, alt: "Quantum Logo" },
-  { src: echoLogo, alt: "Echo Logo" },
-  { src: celestialLogo, alt: "Celestial Logo" },
+  { src: radarLogo, alt: "Radar Logo" },
+  { src: ipfsLogo, alt: "Ipfs Logo" },
   { src: pulseLogo, alt: "Pulse Logo" },
   { src: apexLogo, alt: "Apex Logo" },
   ]
