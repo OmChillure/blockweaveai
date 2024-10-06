@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, Connection } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
-import idl from '@/lib/idl.json';
+import idl from '@/lib/idl_ua.json';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 
-const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
+const programId = new PublicKey('GEvFthxjkqh6WEAaLviajMnvuCQjMsY7nDcutVxcRbtb');
 
 export interface ModelEntry {
   title: string;
@@ -99,7 +99,7 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
   )
 
   return (
-    <aside className="bg-gray-800 text-white p-4 rounded-lg shadow-lg flex flex-col h-full">
+    <aside className=" text-white px-3 rounded-lg flex flex-col h-full">
       <h2 className="text-xl font-bold mb-4">Filter Models</h2>
       <Input
         type="search"
@@ -199,16 +199,7 @@ function Models() {
 
   return (
     <div className="container mx-auto px-4 py-6 min-h-screen ">
-      <div className="mb-4 flex justify-between">
-        <h1 className="text-3xl font-bold text-white mb-4">Models</h1>
-        <Input
-          type="text"
-          placeholder="Search models..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-md text-white/80"
-        />
-      </div>
+      
       
       {!connected ? (
         <p className="text-gray-400 text-center">Please connect your wallet to view models.</p>
@@ -221,7 +212,19 @@ function Models() {
             {filteredEntries.length === 0 ? (
               <p className="text-gray-400 text-center">No models found. Create some models first!</p>
             ) : (
+              <>
+              <div className="mb-4 flex justify-between">
+                <h1 className="text-3xl font-bold text-white mb-4">Models</h1>
+                  <Input
+                    type="text"
+                    placeholder="Search models..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full max-w-md text-white/80"
+                  />
+                </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                
                 {filteredEntries.reverse().map((entry) => (
                 <Link key={entry.ipfsHash} href={`/models/${encodeURIComponent(entry.title.toLowerCase().replace(/\s+/g, '_'))}`}>
                   <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -238,6 +241,7 @@ function Models() {
                 </Link>
                 ))}
               </div>
+              </>
             )}
           </div>
         </div>

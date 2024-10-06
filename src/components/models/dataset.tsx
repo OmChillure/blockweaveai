@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, Connection } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
-import idl from '@/lib/idl_d.json';
+import idl from '@/lib/idl_ud.json';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 
-const programId = new PublicKey('C29N6MNh5XsaL94MuKd3jLeqVR3DugSyZYCqnPV6JjNf');
+const programId = new PublicKey('BCH6tbQXrQtpPmtzwHcitQrpYTbqDeSDNCDVhz26xuxZ');
 
 export interface DatasetEntry {
   title: string;
@@ -97,7 +97,7 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
   )
 
   return (
-    <aside className="bg-gray-800 text-white p-4 rounded-lg shadow-lg flex flex-col h-full">
+    <aside className="text-white px-3 rounded-lg flex flex-col h-full ">
       <h2 className="text-xl font-bold mb-4">Filter Datasets</h2>
       <Input
         type="search"
@@ -197,16 +197,6 @@ function Datasets() {
 
   return (
     <div className="container mx-auto px-4 py-6 min-h-screen ">
-      <div className="mb-4 flex justify-between">
-        <h1 className="text-3xl font-bold text-white mb-4">Datasets</h1>
-        <Input
-          type="text"
-          placeholder="Search datasets..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-md"
-        />
-      </div>
       
       {!connected ? (
         <p className="text-gray-400 text-center">Please connect your wallet to view datasets.</p>
@@ -219,6 +209,18 @@ function Datasets() {
             {filteredEntries.length === 0 ? (
               <p className="text-gray-400 text-center">No datasets found. Create some datasets first!</p>
             ) : (
+              <>
+              <div className="mb-4 flex justify-between">
+        <h1 className="text-3xl font-bold text-white mb-4">Datasets</h1>
+        <Input
+          type="text"
+          placeholder="Search datasets..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full max-w-md"
+        />
+
+      </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                 {filteredEntries.reverse().map((entry) => (
                 <Link key={entry.ipfsHash} href={`/dataset/${encodeURIComponent(entry.title.toLowerCase().replace(/\s+/g, '_'))}`}>
@@ -236,6 +238,7 @@ function Datasets() {
                 </Link>
                 ))}
               </div>
+              </>
             )}
           </div>
         </div>

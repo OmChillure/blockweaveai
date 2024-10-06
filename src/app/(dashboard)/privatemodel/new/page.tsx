@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl } from '@project-serum/anchor';
-import idl from '@/lib/idl.json';
+import idl from '@/lib/idl_ua.json';
 import { upload } from '@/actions';
 import { FileUpload } from '@/components/file-uploader';
 
-const programId = new PublicKey('81BddUVGPz7cCtvEq9LBaEGDRdQiUnfPHRydGDqogvMG');
+const programId = new PublicKey('GEvFthxjkqh6WEAaLviajMnvuCQjMsY7nDcutVxcRbtb');
 
 function CreateModelEntry() {
   const [title, setTitle] = useState('');
@@ -92,7 +92,7 @@ function CreateModelEntry() {
   };
 
   return (
-    <div className="w-screen md:w-[82.4vw] mx-auto p-8 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900 shadow-xl">
+    <div className="w-screen md:w-[98.9vw] mx-auto p-8 flex flex-col items-center bg-gradient-to-br from-black via-gray-900 to-purple-900 shadow-xl">
       <h2 className="text-center text-3xl font-extrabold mb-6 text-white">Upload Your Model</h2>
       <div className="w-full mb-6">
         <input
@@ -109,7 +109,6 @@ function CreateModelEntry() {
           placeholder="Add model hashtags"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          maxLength={20}
           className="w-full p-4 text-lg border border-gray-600 rounded-lg bg-gray-800 text-white min-h-[120px] focus:ring-2 focus:ring-purple-500"
         />
       </div>
