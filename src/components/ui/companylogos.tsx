@@ -3,18 +3,16 @@ import solanaLogo from "../../assets/images/solana.png";
 import quantumLogo from "../../assets/images/quantum.png";
 import radarLogo from "../../assets/images/radar.png";
 import ipfsLogo from "../../assets/images/ipfs.jpg";
-import pulseLogo from "../../assets/images/pulse.png";
+import geminiLogo from "../../assets/images/gemini.png";
 import apexLogo from "../../assets/images/apex.png";
 
 export default function LogoCarousel() {
 
   const logos = [
   { src: solanaLogo, alt: "Acme Logo" },
-  { src: quantumLogo, alt: "Quantum Logo" },
   { src: radarLogo, alt: "Radar Logo" },
   { src: ipfsLogo, alt: "Ipfs Logo" },
-  { src: pulseLogo, alt: "Pulse Logo" },
-  { src: apexLogo, alt: "Apex Logo" },
+  { src: geminiLogo, alt: "Gemini Logo" },
   ]
 
   return (
