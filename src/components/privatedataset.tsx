@@ -14,7 +14,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { X } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 const programId = new PublicKey("BCH6tbQXrQtpPmtzwHcitQrpYTbqDeSDNCDVhz26xuxZ");
 
@@ -94,30 +94,37 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
   );
 
   return (
-    <aside className="text-white px-3 rounded-lg shadow-lg flex flex-col h-full">
-      <h2 className="text-xl font-bold mb-4">Filter Datasets</h2>
-      <Input
-        type="search"
-        placeholder="Search tags..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4"
-      />
-      <Link href={"/privatedataset/new"}>
-        <Button>Create</Button>
-      </Link>
-      <ScrollArea className="flex-grow mb-4">
+    <aside className=" text-white px-3 rounded-xl shadow-lg flex flex-col h-full">
+      <h2 className="text-2xl font-bold mb-6">Filter Datasets</h2>
+
+      <div className="relative mb-6">
+        <Input
+          type="search"
+          placeholder="Search tags..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="bg-[#131619] border-gray-700 focus:border-purple-500 text-white placeholder-gray-400 rounded-lg"
+        />
+      </div>
+
+      <ScrollArea className="flex-grow mb-6">
         <div className="space-y-6">
           {Object.entries(filteredCategories).map(([category, tags]) => (
             <div key={category}>
-              <h3 className="text-lg font-semibold mb-2">{category}</h3>
+              <h3 className="text-lg font-semibold mb-3 text-gray-300">
+                {category}
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
                   <Button
                     key={tag}
                     variant={selectedTags.includes(tag) ? "default" : "outline"}
                     size="sm"
-                    className="rounded-full"
+                    className={`rounded-lg ${
+                      selectedTags.includes(tag)
+                        ? "bg-purple-600 hover:bg-purple-700 text-white"
+                        : "border-gray-600 text-gray-300 hover:bg-gray-700"
+                    }`}
                     onClick={() => handleTagClick(tag)}
                   >
                     {tag}
@@ -128,23 +135,31 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
           ))}
         </div>
       </ScrollArea>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {selectedTags.map((tag) => (
-          <div
-            key={tag}
-            className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-sm flex items-center"
-          >
-            {tag}
-            <button
-              onClick={() => handleTagClick(tag)}
-              className="ml-1 focus:outline-none"
+
+      {selectedTags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {selectedTags.map((tag) => (
+            <div
+              key={tag}
+              className="bg-purple-600 text-white px-3 py-1 rounded-lg text-sm flex items-center"
             >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        ))}
-      </div>
-      <Button onClick={handleReset} variant="outline" className="w-full">
+              {tag}
+              <button
+                onClick={() => handleTagClick(tag)}
+                className="ml-2 focus:outline-none hover:text-purple-200"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <Button
+        onClick={handleReset}
+        variant="outline"
+        className="w-full border-gray-600 text-gray-300 hover:bg-gray-700"
+      >
         Reset Filters
       </Button>
     </aside>
@@ -226,34 +241,32 @@ function Datasets() {
             />
           </div>
           <div className="lg:col-span-3">
-          <Link href={"/privatedataset/new"} className="text-white/70">
-                  <Button>
+            <div className="mb-4 flex ">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
+                Models
+              </h1>
+              <div className="flex ml-[58%] relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  type="text"
+                  placeholder="Search models..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 w-64 bg-black/30 border-gray-700 focus:border-purple-500 text-white transition-all duration-200 hover:border-purple-400"
+                />
+                <Link href={"/privatemodel/new"}>
+                  <Button className="text-white bg-slate-800 ml-4">
                     Create
                   </Button>
-                  </Link>
+                </Link>
+              </div>
+            </div>
             {filteredEntries.length === 0 ? (
               <p className="text-gray-400 text-center">
                 No datasets found. Create some datasets first!
               </p>
             ) : (
               <>
-                <div className="mb-4 flex justify-between">
-                  <h1 className="text-3xl font-bold text-white mb-4">
-                    Datasets
-                  </h1>
-                  <Input
-                    type="text"
-                    placeholder="Search datasets..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full max-w-md"
-                  />
-                    <Link href={"/privatedataset/new"} className="text-white/70">
-                  <Button>
-                    Create
-                  </Button>
-                  </Link>
-                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                   {filteredEntries.reverse().map((entry) => (
                     <Link

@@ -50,7 +50,7 @@ export const Footer = () => {
                     </svg>
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/blockweave_ai"
                     target="blank"
                     aria-label="twitter"
                     className="hover:text-cyan-600"
@@ -128,12 +128,12 @@ export const Footer = () => {
                   </h6>
                   <ul className="mt-4 list-inside space-y-4">
                     <li>
-                      <a href="#" className="transition hover:text-cyan-600">
+                      <a href="https://x.com/OmChillure" className="transition hover:text-cyan-600">
                         Om Chillure
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="transition hover:text-cyan-600">
+                      <a href="https://x.com/guptajay17" className="transition hover:text-cyan-600">
                         Jay Gupta
                       </a>
                     </li>

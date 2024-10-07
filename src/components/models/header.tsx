@@ -97,6 +97,11 @@ export default function Header() {
               Upload Datasets
               </Link>
             </DropdownItem>
+            <DropdownItem className="hover:bg-slate-800">
+              <Link href="/privateips">
+              Upload Ips
+              </Link>
+            </DropdownItem>
             <DropdownItem key="logout" className="hover:bg-orange-800">
               <Link href="/">
               Log Out

@@ -45,14 +45,13 @@ export const Navbar = () => {
               )}
             </div>
 
-            {/* Desktop Navigation Links */}
             <nav className='text-white gap-6 items-center hidden sm:flex'>
               <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>About</a>
               <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Features</a>
               <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</a>
               {walletConnected && (
-                <Button color="primary">
-                  <Link href="/models">Models</Link>
+                <Button className="bg-slate-800">
+                  <Link href="/models">Dashboard</Link>
                 </Button>
               )}
               <WalletButton
@@ -65,7 +64,6 @@ export const Navbar = () => {
             </nav>
           </div>
 
-          {/* Mobile Navigation Links */}
           <div 
             className={`fixed top-0 right-0 h-full w-64 bg-black z-40 transform transition-transform duration-300 ease-in-out ${
               menuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -76,8 +74,8 @@ export const Navbar = () => {
               <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Features</a>
               <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</a>
               {walletConnected && (
-                <Button color="primary">
-                  <Link href="/models">Models</Link>
+                <Button className="inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
+                  <Link href="/models">Datasets</Link>
                 </Button>
               )}
               <WalletButton
@@ -90,7 +88,6 @@ export const Navbar = () => {
             </nav>
           </div>
 
-          {/* Overlay */}
           {menuOpen && (
             <div 
               className="fixed inset-0 bg-black bg-opacity-50 z-30"
