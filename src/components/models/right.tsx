@@ -99,8 +99,8 @@ function FilterSidebar({ selectedTags, setSelectedTags }: FilterSidebarProps) {
   )
 
   return (
-    <aside className=" text-white px-3 rounded-xl shadow-lg flex flex-col h-full">
-      <h2 className="text-2xl font-bold mb-6">Filter Datasets</h2>
+    <aside className="text-white px-3 rounded-xl shadow-lg flex flex-col h-full">
+      <h2 className="text-2xl font-bold mb-6">Filter Models</h2>
       
       <div className="relative mb-6">
         <Input
@@ -205,18 +205,21 @@ function Models() {
     }
   };
 
-  const filteredEntries = entries.filter(entry =>
-    (entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.message.toLowerCase().includes(searchTerm.toLowerCase())) &&
-    (selectedTags.length === 0 || selectedTags.every(tag => 
+  const filteredEntries = entries.filter(entry => {
+    const matchesSearch = 
+      entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      entry.message.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => 
+      entry.title.toLowerCase().includes(tag.toLowerCase()) ||
       entry.message.toLowerCase().includes(tag.toLowerCase())
-    ))
-  );
+    );
+
+    return matchesSearch && matchesTags;
+  });
 
   return (
-    <div className="container mx-auto px-4 py-6 min-h-screen ">
-      
-      
+    <div className="container mx-auto px-4 py-6 min-h-screen">
       {!connected ? (
         <p className="text-gray-400 text-center">Please connect your wallet to view models.</p>
       ) : (
@@ -229,37 +232,36 @@ function Models() {
               <p className="text-gray-400 text-center">No models found. Create some models first!</p>
             ) : (
               <>
-              <div className="mb-4 flex justify-between">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">Models</h1>
-                <div className="relative">
+                <div className="mb-4 flex justify-between">
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">Models</h1>
+                  <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                     <Input
                       type="text"
-                      placeholder="Search proxies..."
+                      placeholder="Search models..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 w-64 bg-black/30 border-gray-700 focus:border-purple-500 text-white transition-all duration-200 hover:border-purple-400"
                     />
                   </div>
                 </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-                
-                {filteredEntries.reverse().map((entry) => (
-                <Link key={entry.ipfsHash} href={`/models/${encodeURIComponent(entry.title.toLowerCase().replace(/\s+/g, '_'))}`}>
-                  <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <CardContent className="p-4 flex items-center">
-                      <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-red-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
-                        {entry.title.charAt(0).toUpperCase()}
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">{entry.title}</h2>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{entry.message}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-                ))}
-              </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                  {filteredEntries.reverse().map((entry) => (
+                    <Link key={entry.ipfsHash} href={`/models/${encodeURIComponent(entry.title.toLowerCase().replace(/\s+/g, '_'))}`}>
+                      <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        <CardContent className="p-4 flex items-center">
+                          <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-red-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">
+                            {entry.title.charAt(0).toUpperCase()}
+                          </div>
+                          <div className="flex-grow min-w-0">
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white truncate">{entry.title}</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{entry.message}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
               </>
             )}
           </div>
