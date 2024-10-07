@@ -243,7 +243,7 @@ function Datasets() {
           <div className="lg:col-span-3">
             <div className="mb-4 flex ">
               <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
-                Models
+                Dataset
               </h1>
               <div className="flex ml-[58%] relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -254,7 +254,7 @@ function Datasets() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 w-64 bg-black/30 border-gray-700 focus:border-purple-500 text-white transition-all duration-200 hover:border-purple-400"
                 />
-                <Link href={"/privatemodel/new"}>
+                <Link href={"/privatedataset/new"}>
                   <Button className="text-white bg-slate-800 ml-4">
                     Create
                   </Button>
