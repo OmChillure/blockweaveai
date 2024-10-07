@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "@/components/ui/use-toast"
+import Link from 'next/link';
 
 const programId = new PublicKey('6H6k7YwaCqyW5a2gnrqxTJcEJk1cLkfgdnm2FJPABqca');
 
@@ -165,7 +166,7 @@ export default function ProxyEntries() {
                   </CardDescription>
                 </div>
               </div>
-              <div className="relative">
+              <div className="relative flex">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
                   type="text"
@@ -174,6 +175,9 @@ export default function ProxyEntries() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 w-64 bg-black/30 border-gray-700 focus:border-purple-500 text-white transition-all duration-200 hover:border-purple-400"
                 />
+              <Button>
+                <Link href={"/privateips/new"}>Register Ip</Link>
+              </Button>
               </div>
             </div>
           </CardHeader>
