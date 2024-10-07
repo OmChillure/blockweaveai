@@ -39,7 +39,7 @@ export default function ProxyEntries() {
   const [copiedField, setCopiedField] = useState<{ ip: string, field: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [final,setFinal] = useState<ProxyEntry[]>([])
   const anchorWallet = useAnchorWallet();
   const { connection } = useConnection();
   const { connected, publicKey } = useWallet();
@@ -61,7 +61,7 @@ export default function ProxyEntries() {
     const program = new Program(idl as Idl, programId, provider);
 
     try {
-      const allEntries = await program.account.modelEntryState.all([
+      const allEntries = await program.account.proxyEntryState.all([
         {
           memcmp: {
             offset: 8,
@@ -81,8 +81,14 @@ export default function ProxyEntries() {
         purchased: entry.account.purchased || false,
         buyer: entry.account.buyer || null,
       }));
-
-      setEntries(formattedEntries);
+      const filteredEntries =publicKey ? formattedEntries.filter(entry =>
+        entry.owner.equals(publicKey) ||
+        entry.ip.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        entry.protocols.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        entry.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        entry.port.toLowerCase().includes(searchTerm.toLowerCase())
+      ) : []
+      setEntries(filteredEntries);
     } catch (error) {
       console.error("Error fetching personal models:", error);
     } finally {
@@ -136,13 +142,8 @@ export default function ProxyEntries() {
       });
     }
   };
-
-  const filteredEntries = entries.filter(entry =>
-    entry.ip.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.protocols.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    entry.port.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  
+  
 
   return (
     <div className="w-[98.9vw] min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white px-3">
@@ -188,7 +189,7 @@ export default function ProxyEntries() {
                   <Skeleton key={i} className="h-16 w-full bg-gray-800/50" />
                 ))}
               </div>
-            ) : filteredEntries.length === 0 ? (
+            ) : entries.length === 0 ? (
               <div className="text-center py-12 bg-gray-900/30 rounded-lg border border-gray-800">
                 <AlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                 <p className="text-gray-400 text-lg">No proxy entries found.</p>
@@ -209,7 +210,7 @@ export default function ProxyEntries() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredEntries.map((entry) => (
+                    {entries && entries.map((entry) => (
                       <TableRow key={entry.ip} className="hover:bg-purple-900/20 transition-colors duration-200">
                         <TableCell>
                           <div className="flex items-center space-x-2">
@@ -267,7 +268,7 @@ export default function ProxyEntries() {
                           {new Date(entry.updated * 1000).toLocaleString()}
                         </TableCell>
                         <TableCell className="text-gray-400">
-                          {entry.price.toFixed(9)} SOL
+                          {Number(entry.price).toFixed(9)} SOL
                         </TableCell>
                         <TableCell>
                           <Badge variant={entry.purchased ? "default" : "secondary"} className={entry.purchased ? "bg-green-500/20 text-green-300" : "bg-yellow-500/20 text-yellow-300"}>
