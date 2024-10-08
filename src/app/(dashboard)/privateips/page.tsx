@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl, web3 } from '@project-serum/anchor';
-import idl from '@/lib/idlf.json';
+import idl from '@/lib/idlfs.json';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -20,7 +20,7 @@ import { Badge } from "@/components/ui/badge"
 import { toast } from "@/components/ui/use-toast"
 import Link from 'next/link';
 
-const programId = new PublicKey('6H6k7YwaCqyW5a2gnrqxTJcEJk1cLkfgdnm2FJPABqca');
+const programId = new PublicKey('6rari3pcVRKnmUncWhEkJmahkphzR2q4ccVMbEDmg5eQ');
 
 interface ProxyEntry {
   owner: PublicKey;

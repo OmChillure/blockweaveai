@@ -42,8 +42,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           Changelog from my journey
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 text-md md:text-base max-w-sm font-semibold">
-          I&apos;ve been working on Aceternity for the past 2 years. Here&apos;s
-          a timeline of my journey.
+          I&apos;ve been working on BLockweave AI for the past 1 month. Here&apos;s
+          a timeline of my journey & of the future.
         </p>
       </div>
 

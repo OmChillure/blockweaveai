@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
 import { Program, AnchorProvider, Idl, web3, BN } from '@project-serum/anchor';
-import idl from '@/lib/idlf.json';
+import idl from '@/lib/idlfs.json';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 
-const programId = new PublicKey('6H6k7YwaCqyW5a2gnrqxTJcEJk1cLkfgdnm2FJPABqca');
+const programId = new PublicKey('6rari3pcVRKnmUncWhEkJmahkphzR2q4ccVMbEDmg5eQ');
 
 export default function AddProxyPage() {
   const [newEntry, setNewEntry] = useState({
