@@ -21,3 +21,5 @@ export const Features = forwardRef<HTMLDivElement>((_, ref) => {
     </div>
   );
 });
+
+Features.displayName = 'Features';

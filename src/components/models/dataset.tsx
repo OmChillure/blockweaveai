@@ -235,7 +235,7 @@ function Datasets() {
                 </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {filteredEntries.map((entry, index) => (
-                      <Link href={`/dataset/${encodeURIComponent(entry.title.toLowerCase())}`}>
+                      <Link key={entry.title} href={`/dataset/${encodeURIComponent(entry.title.toLowerCase())}`}>
                         <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
                           <CardContent className="p-4 flex items-center">
                           <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-red-600 rounded-md flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0">

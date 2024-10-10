@@ -82,3 +82,5 @@ export const Updates = forwardRef<HTMLDivElement>((_, ref) => {
     </div>
   );
 });
+
+Updates.displayName = 'Updates';
