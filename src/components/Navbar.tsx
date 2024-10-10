@@ -8,12 +8,31 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { Cross2Icon } from "@radix-ui/react-icons";
 
-export const Navbar = () => {
+import { RefObject } from "react";
+
+interface NavbarProps {
+  featuresRef: RefObject<HTMLElement>;
+  updatesRef: RefObject<HTMLElement>;
+}
+
+export const Navbar = ({ featuresRef, updatesRef }: NavbarProps) => {
   const walletConnected = checkWalletConnection();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const scrollToFeatures = () => {
+    if (featuresRef && featuresRef.current) {
+      featuresRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToUpdates = () => {
+    if (updatesRef && updatesRef.current) {
+      updatesRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
@@ -46,9 +65,8 @@ export const Navbar = () => {
             </div>
 
             <nav className='text-white gap-6 items-center hidden sm:flex'>
-              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>About</a>
-              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Features</a>
-              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</a>
+              <button onClick={scrollToFeatures} className='text-opacity-60 text-white hover:text-opacity-100 transition'>About</button>
+              <button onClick={scrollToUpdates} className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</button>
               {walletConnected && (
                 <Button className="bg-slate-800">
                   <Link href="/models">Dashboard</Link>
@@ -70,9 +88,8 @@ export const Navbar = () => {
             }`}
           >
             <nav className="flex flex-col items-center gap-4 py-20 text-white h-full">
-              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>About</a>
-              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Features</a>
-              <a href="#" className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</a>
+              <button onClick={scrollToFeatures} className='text-opacity-60 text-white hover:text-opacity-100 transition'>About</button>
+              <button onClick={scrollToUpdates} className='text-opacity-60 text-white hover:text-opacity-100 transition'>Updates</button>
               {walletConnected && (
                 <Button className="inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
                   <Link href="/models">Datasets</Link>

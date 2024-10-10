@@ -176,10 +176,6 @@ export default function ModelDetail() {
             <DownloadIcon className="mr-2 h-4 w-4" />
             {purchasing ? 'Processing...' : 'Purchase & Download Model'}
           </Button>
-          <Button className="flex-1 bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200">
-            <MessageCircleIcon className="mr-2 h-4 w-4" />
-            Chat with AI
-          </Button>
         </div>
       </div>
     </div>
