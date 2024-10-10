@@ -272,7 +272,7 @@ function PrivateModels() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                 {filteredEntries.reverse().map((entry) => (
                   <Link
-                    key={entry.ipfsHash}
+                  key={entry.title} 
                     href={`/models/${encodeURIComponent(
                       entry.title.toLowerCase().replace(/\s+/g, "_")
                     )}`}
