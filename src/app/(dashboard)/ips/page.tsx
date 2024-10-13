@@ -243,14 +243,21 @@ export default function ProxyEntries() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <span className="font-mono">{entry.port}</span>
+                            <span className="font-mono">
+                              {entry.purchased && entry.buyer?.equals(publicKey!) ? entry.port : '*.*.*.* (Hidden)'}
+                            </span>
+                            {entry.purchased && entry.buyer?.equals(publicKey!) ? (
+                              <Unlock className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <Lock className="h-4 w-4 text-yellow-500" />
+                            )}
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleCopy(entry.ip, 'port', entry.port)}
+                              onClick={() => handleCopy(entry.ip, 'ip', entry.purchased && entry.buyer?.equals(publicKey!) ? entry.port : '*.*.*.* (Hidden)')}
                               className="hover:bg-purple-500/20 transition-colors duration-200"
                             >
-                              {copiedField?.ip === entry.ip && copiedField?.field === 'port' ? (
+                              {copiedField?.ip === entry.port && copiedField?.field === 'ip' ? (
                                 <Check className="h-4 w-4 text-green-500" />
                               ) : (
                                 <Copy className="h-4 w-4" />

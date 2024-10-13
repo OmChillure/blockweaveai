@@ -273,8 +273,8 @@ function PrivateModels() {
                 {/* Add key prop to Link component */}
                 {filteredEntries.reverse().map((entry) => (
                   <Link
-                  key={entry.title} 
-                    href={`/models/${encodeURIComponent(
+                  key={entry.title}
+                  href={`/models/${encodeURIComponent(
                       entry.title.toLowerCase().replace(/\s+/g, "_")
                     )}`}
                   > 
